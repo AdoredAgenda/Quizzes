@@ -1,0 +1,43 @@
+.input {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2;
+  width: 28rem;
+  align-items: flex-start;
+  text-align: start;
+  height: 3.9rem;
+  position: relative;
+  width: 100%;
+  outline: 1px solid transparent;
+  border-radius: 0.4rem;
+}
+.label {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translate(1.8rem, -50%);
+  font-size: 1.8rem;
+}
+.inputBox {
+  text-align: start;
+  /* background-color: red; */
+  /* padding: 1.4rem; */
+  font-size: 1.8rem;
+  width: 100%;
+  padding: 0 1.8rem;
+  height: 100%;
+  border-radius: 0.4rem;
+  border: none;
+  outline: 1px solid black;
+}
+.inputFocus {
+  outline: 1px solid #2962ff;
+}
+.labelFocus {
+  top: 0;
+  left: 0;
+  transform: translate(0, -120%);
+  font-size: 1.2rem;
+  color: #2962ff;
+}

@@ -1,23 +1,45 @@
-./Backend/node_modules
+Backend/node_modules
 
-./React/node_modules
-./React/.pnp
-./React/.pnp.js
+Admin/node_modules
+Admin/.pnp
+Admin/.pnp.js
 
 # testing
-./React/coverage
+Admin/coverage
 
 # production
-./React/build
+Admin/build
 
 # misc
-./React/.DS_Store
-./React/.env.local
-./React/.env.development.local
-./React/.env.test.local
-./React/.env.production.local
+Admin/.DS_Store
+Admin/.env.local
+Admin/.env.development.local
+Admin/.env.test.local
+Admin/.env.production.local
 
-./React/npm-debug.log*
-./React/yarn-debug.log*
-./React/yarn-error.log*
-./Backend/.env
+Admin/npm-debug.log*
+Admin/yarn-debug.log*
+Admin/yarn-error.log*
+
+User/node_modules
+User/.pnp
+User/.pnp.js
+
+# testing
+User/coverage
+
+# production
+User/build
+
+# misc
+User/.DS_Store
+User/.env.local
+User/.env.development.local
+User/.env.test.local
+User/.env.production.local
+
+User/npm-debug.log*
+User/yarn-debug.log*
+User/yarn-error.log*
+
+Videos
