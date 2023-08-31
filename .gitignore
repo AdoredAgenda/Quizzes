@@ -1,45 +1,45 @@
-./Backend/node_modules
+Backend/node_modules
 
 Admin/node_modules
-./Admin/.pnp
-./Admin/.pnp.js
+Admin/.pnp
+Admin/.pnp.js
 
 # testing
-./Admin/coverage
+Admin/coverage
 
 # production
-./Admin/build
+Admin/build
 
 # misc
-./Admin/.DS_Store
-./Admin/.env.local
-./Admin/.env.development.local
-./Admin/.env.test.local
-./Admin/.env.production.local
+Admin/.DS_Store
+Admin/.env.local
+Admin/.env.development.local
+Admin/.env.test.local
+Admin/.env.production.local
 
-./Admin/npm-debug.log*
-./Admin/yarn-debug.log*
-./Admin/yarn-error.log*
+Admin/npm-debug.log*
+Admin/yarn-debug.log*
+Admin/yarn-error.log*
 
-./User/node_modules
-./User/.pnp
-./User/.pnp.js
+User/node_modules
+User/.pnp
+User/.pnp.js
 
 # testing
-./User/coverage
+User/coverage
 
 # production
-./User/build
+User/build
 
 # misc
-./User/.DS_Store
-./User/.env.local
-./User/.env.development.local
-./User/.env.test.local
-./User/.env.production.local
+User/.DS_Store
+User/.env.local
+User/.env.development.local
+User/.env.test.local
+User/.env.production.local
 
-./User/npm-debug.log*
-./User/yarn-debug.log*
-./User/yarn-error.log*
+User/npm-debug.log*
+User/yarn-debug.log*
+User/yarn-error.log*
 
-./Videos
+Videos
