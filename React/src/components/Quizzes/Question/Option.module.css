@@ -1,0 +1,29 @@
+.option {
+  display: flex;
+  /* width: 9rem; */
+  height: 3.2rem;
+  padding: 0rem 2.4rem;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  background-color: white;
+  border-radius: 0.2rem;
+  transition: all 0.1s ease-in-out;
+}
+.optionText {
+  transition: all 0.1s ease-in-out;
+  color: #606060;
+  font-family: Roboto;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px; /* 150% */
+  letter-spacing: 0.1px;
+}
+.option:hover {
+  background-color: #2f80ed;
+  cursor: pointer;
+}
+.option:hover > .optionText {
+  color: #fff;
+}
