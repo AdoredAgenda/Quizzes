@@ -1,0 +1,120 @@
+.Nav {
+  display: flex;
+  height: 9.2rem;
+  min-height: 9rem;
+  padding: 1.2rem;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  align-self: stretch;
+  border-radius: 1.2rem;
+  background: #fff;
+  box-shadow: 3px 3px 12px 0px rgba(0, 0, 0, 0.25);
+}
+.left {
+  display: flex;
+  padding: 1rem;
+  align-items: flex-start;
+  gap: 1rem;
+  align-self: stretch;
+}
+.avatar {
+  font-size: 2rem;
+  font-weight: 600;
+  color: white;
+}
+.left__textBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.6rem;
+  align-self: stretch;
+}
+.left__text {
+  color: #000;
+  font-family: Roboto;
+  font-size: 1.6rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px; /* 150% */
+  letter-spacing: 0.1px;
+}
+.img {
+  width: 4.8rem;
+  align-self: stretch;
+  border-radius: 9.2rem;
+  background: #2f80ed;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.search {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+
+  width: 40%;
+  min-height: 4.2rem;
+  max-height: 4.2rem;
+
+  padding: 1rem;
+
+  border-radius: 39px;
+  border: 1px solid #8e8e93;
+}
+
+.search__iconBox {
+  width: 28px;
+  height: 28.948px;
+  flex-shrink: 0;
+}
+.input {
+  align-self: stretch;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.6rem;
+
+  padding: 0px 6px;
+  flex: 1 0 0;
+
+  border: none;
+  outline: none;
+  font-family: "Roboto";
+  font-size: 14px;
+  font-weight: 500;
+  font-style: normal;
+  line-height: 21px; /* 150% */
+  color: #808081;
+  letter-spacing: 0.1px;
+}
+.logOut {
+  display: flex;
+  width: 13rem;
+  height: 4.2rem;
+  min-width: 12rem;
+  padding: 1rem;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  border-radius: 2.4rem;
+  transition: all 0.1s ease-in-out;
+  background: #2f80ed;
+}
+.logOutText {
+  color: #fff;
+  font-family: Roboto;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px; /* 131.25% */
+  letter-spacing: 0.1px;
+}
+.logOut:hover {
+  cursor: pointer;
+  background: #257beb;
+}
