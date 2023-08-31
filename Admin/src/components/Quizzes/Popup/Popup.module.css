@@ -1,0 +1,136 @@
+.background {
+  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: absolute;
+  width: 100vw;
+  top: 0;
+  left: 0;
+}
+.container {
+  min-height: 40%;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  outline: 1px solid #2e2e2e;
+  border-radius: 1.2rem;
+  gap: 1.8rem;
+}
+.closeIcon {
+  width: 2.4rem;
+  height: 2.4rem;
+  transition: all 0.1s ease-in-out;
+}
+.closeIcon > svg {
+  width: 100%;
+  height: 100%;
+  transition: all 0.1s ease-in-out;
+}
+.closeIcon:hover {
+  cursor: pointer;
+  /* Good shade of red over hover */
+  background-color: #ff8000;
+}
+.closeIcon:hover > svg {
+  stroke: #fff;
+}
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  /* width: 100%; */
+  height: fit-content;
+  padding: 0 3.4rem;
+}
+.top {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 1.8rem 0.6rem 1.8rem;
+}
+.heading {
+  font-size: 1.8rem;
+  color: black;
+  font-weight: 600;
+}
+.question {
+  font-size: 1.8rem;
+  width: 80%;
+  border: none;
+  outline: none;
+  border-bottom: #2e2e2e 1px solid;
+  padding: 0.4rem 1.2rem;
+}
+.question::placeholder {
+  color: #ff4d00;
+}
+.optionBox {
+  margin-top: 1rem;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  /* width: 18rem; */
+  width: fit-content;
+  gap: 2.4rem;
+}
+.submit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.2rem 2.4rem;
+  border-radius: 0.8rem;
+  user-select: none;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+  font-size: 1.8rem;
+  font-weight: 500;
+  margin: 2.4rem 1.8rem 0.8rem 1.8rem;
+
+  outline: 1px solid #2f80ed;
+  background-color: #fff;
+  color: #2f80ed;
+}
+.submit:hover {
+  background: #2f80ed;
+  color: white;
+}
+.submit:focus {
+  cursor: pointer;
+  /* Good shade of red over hover */
+  color: white;
+  background-color: #ff8000;
+  outline: 2px solid #2f80ed;
+}
+.addOption {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.2rem 2.4rem;
+  border-radius: 0.8rem;
+  user-select: none;
+  cursor: pointer;
+  background: #2f80ed;
+  transition: all 0.1s ease-in-out;
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: white;
+  align-self: flex-start;
+  outline: none;
+  border: none;
+  transition: all 0.1s ease-in-out;
+  /* margin: 2.4rem 1.8rem 0.8rem 1.8rem; */
+}
+.addOption:hover {
+  background-color: #ff8000;
+}
+.addOption:active {
+  background-color: #ff7700;
+}
