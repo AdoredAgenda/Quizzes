@@ -1,6 +1,6 @@
 ./Backend/node_modules
 
-./Admin/node_modules
+Admin/node_modules
 ./Admin/.pnp
 ./Admin/.pnp.js
 
