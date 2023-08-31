@@ -1,0 +1,38 @@
+.buttons {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.8rem;
+  align-self: stretch;
+}
+.questionBox {
+  display: flex;
+  padding: 1.6rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.2rem;
+  flex: 1 0 0;
+  align-self: stretch;
+  border-radius: 1.2rem;
+  border: 0.1rem solid #bfbfbf;
+  height: 100%;
+  overflow: scroll;
+}
+.heading {
+  color: #000;
+  font-family: Roboto;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px; /* 105% */
+  letter-spacing: 0.1px;
+}
+.list {
+  display: flex;
+  padding: 0px 1.2rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.8rem;
+  flex: 1 0 0;
+
+  align-self: stretch;
+}
