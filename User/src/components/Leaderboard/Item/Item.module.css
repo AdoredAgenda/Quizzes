@@ -1,0 +1,49 @@
+.item {
+  display: flex;
+  flex-direction: row;
+  min-height: 3.6rem;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nameInit {
+  background-color: #2f80ed;
+  outline: 2px solid #fff;
+  border-radius: 50%;
+  height: 3.2rem;
+  width: 3.2rem;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  justify-content: center;
+}
+.nameInitText {
+  color: white;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+.left {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.2rem;
+}
+.right {
+  padding: 0.8rem 1.6rem;
+  border-radius: 1.8rem;
+  background-color: #e68eff;
+}
+.score {
+  color: white;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+.serial {
+  color: black;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+.name {
+  font-size: 1.6rem;
+}

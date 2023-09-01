@@ -134,3 +134,29 @@
 .addOption:active {
   background-color: #ff7700;
 }
+.correct {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 1.4rem;
+  width: 100%;
+  padding: 0 0.8rem;
+  margin-top: 1.2rem;
+}
+.radio {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.4rem;
+}
+.label {
+  font-size: 1.2rem;
+  color: #2e2e2e;
+  font-weight: 500;
+}
+.rad {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}

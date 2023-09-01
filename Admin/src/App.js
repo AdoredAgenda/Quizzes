@@ -119,11 +119,13 @@ function App() {
     {
       question: "What is your species?",
       options: ["Human", "Alien", "Robot", "None of the above"],
+      correctOption: "Alien",
       points: 500,
     },
     {
       question: "When did first world war start?",
       options: ["1914", "1915", "1916", "1917"],
+      correctOption: "1914",
       points: 100,
     },
     {
@@ -134,6 +136,7 @@ function App() {
         "Amit Shah",
         "Rahul Gandhi",
       ],
+      correctOption: "Ram Nath Kovind",
       points: 200,
     },
     {
@@ -144,24 +147,27 @@ function App() {
         "Vikings",
         "None of the above",
       ],
+      correctOption: "Christopher Columbus",
       points: 235,
     },
     {
       question: "When did world uprise start?",
       options: ["1914", "1915", "1916", "1917"],
+      correctOption: "1914",
       points: 500,
     },
   ]);
 
-  function questionHandler(newQuestion, options) {
+  function questionHandler(newQuestion, options, correctOption) {
     const newQuest = {
       question: newQuestion,
       options: options,
       points: 500,
+      correctOption: correctOption,
     };
+    console.log("App -> newQuest", newQuest);
     setQuestions([...questions, newQuest]);
   }
-
   function switchPage(pageName) {
     setPage(pageName);
   }

@@ -1,14 +1,22 @@
 import styles from "./Popup.module.css";
 import Input from "./Input";
-import { useState } from "react";
+import React, { useState } from "react";
 
 export default function Popup({ popUpHandler, questionHandler }) {
   const [options, setOptions] = useState(["", ""]);
   const [question, setQuestion] = useState("");
+  const [correct, setCorrect] = useState(null);
 
   function addOption() {
     setOptions([...options, ""]);
   }
+  function correctHandler(e) {
+    setCorrect(() => {
+      return e.target.value;
+    });
+    console.log("Popup -> correct", correct);
+  }
+
   function editOption(newText, index) {
     let newOptions = [...options];
     newOptions[index] = newText;
@@ -73,13 +81,34 @@ export default function Popup({ popUpHandler, questionHandler }) {
               onClick={() => addOption()}
             />
           </div>
+          <div className={styles.correct}>
+            <span className={styles.heading}>Correct Answer</span>
+            <div className={styles.radio}>
+              {options.map((option, index) => {
+                return (
+                  <div className={styles.rad}>
+                    <input
+                      onClick={(e) => correctHandler(e)}
+                      type="radio"
+                      id={`option${index + 1}`}
+                      name="correct"
+                      value={option}
+                    />
+                    <label for={`option${index + 1}`} className={styles.label}>
+                      {option}
+                    </label>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
         <input
           type="button"
           value="Sumbit"
           className={styles.submit}
           onClick={() => {
-            questionHandler(question, options);
+            questionHandler(question, options, correct);
             popUpHandler();
           }}
         />
