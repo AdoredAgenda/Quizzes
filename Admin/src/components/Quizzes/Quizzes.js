@@ -5,7 +5,7 @@ import React from "react";
 import Question from "./Question/Question";
 import Popup from "./Popup/Popup";
 
-export default function Quizzes({ questions, questionHandler }) {
+export default function Quizzes({ questions, questionHandler, socket }) {
   const [showPopup, setShowPopup] = React.useState(false);
   function togglePopup() {
     setShowPopup(!showPopup);
@@ -13,10 +13,14 @@ export default function Quizzes({ questions, questionHandler }) {
   return (
     <React.Fragment>
       {showPopup && (
-        <Popup popUpHandler={togglePopup} questionHandler={questionHandler} />
+        <Popup
+          popUpHandler={togglePopup}
+          questionHandler={questionHandler}
+          socket={socket}
+        />
       )}
       <div className={styles.buttons}>
-        <Start />
+        <Start socket={socket} />
         <AddQuestion popUpHandler={togglePopup} />
       </div>
       <div className={styles.questionBox}>
@@ -24,7 +28,12 @@ export default function Quizzes({ questions, questionHandler }) {
         <div className={styles.list}>
           {questions.map((question, index) => {
             return (
-              <Question key={index} serial={index + 1} question={question} />
+              <Question
+                key={index}
+                serial={index + 1}
+                question={question}
+                socket={socket}
+              />
             );
           })}
         </div>

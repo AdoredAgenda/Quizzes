@@ -2,7 +2,7 @@ import styles from "./Popup.module.css";
 import Input from "./Input";
 import React, { useState } from "react";
 
-export default function Popup({ popUpHandler, questionHandler }) {
+export default function Popup({ popUpHandler, questionHandler, socket }) {
   const [options, setOptions] = useState(["", ""]);
   const [question, setQuestion] = useState("");
   const [correct, setCorrect] = useState(null);
@@ -14,9 +14,25 @@ export default function Popup({ popUpHandler, questionHandler }) {
     setCorrect(() => {
       return e.target.value;
     });
-    console.log("Popup -> correct", correct);
   }
-
+  function insertQuest(statement, options, answer) {
+    const token = localStorage.getItem("adminJwt");
+    socket.emit(
+      "postQuestion",
+      {
+        token,
+        question: {
+          statement,
+          options,
+          answer,
+        },
+      },
+      (response) => {
+        if (response.success) alert(response.message);
+        else alert(response.errMessage);
+      }
+    );
+  }
   function editOption(newText, index) {
     let newOptions = [...options];
     newOptions[index] = newText;
@@ -90,6 +106,7 @@ export default function Popup({ popUpHandler, questionHandler }) {
                     <input
                       onClick={(e) => correctHandler(e)}
                       type="radio"
+                      key={index}
                       id={`option${index + 1}`}
                       name="correct"
                       value={option}
@@ -108,6 +125,7 @@ export default function Popup({ popUpHandler, questionHandler }) {
           value="Sumbit"
           className={styles.submit}
           onClick={() => {
+            insertQuest(question, options, correct);
             questionHandler(question, options, correct);
             popUpHandler();
           }}

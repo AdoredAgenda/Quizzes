@@ -9,18 +9,48 @@ import Participants from "./components/Dashboard/Participants/Participants";
 import Leaderboard from "./components/Leaderboard/Leaderboard";
 import Login from "./components/Login/Login";
 import { useEffect } from "react";
+import io from "socket.io-client";
 
 function App() {
-  useEffect(() => {
-    if (localStorage.getItem("user") === "LoggedIn") {
-      setLoggedIn(true);
-    } else {
-      setLoggedIn(false);
-    }
-  }, []);
+  const [socket, setSocket] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("adminJwt"));
   const [page, setPage] = React.useState("Dashboard");
   const [loggedIn, setLoggedIn] = React.useState(false);
+
+  // useEffect(() => {
+  //   if (localStorage.getItem("user") === "LoggedIn") {
+  //     setLoggedIn(true);
+  //   } else {
+  //     setLoggedIn(false);
+  //   }
+  // }, []);
+
+  useEffect(() => {
+    const newSocket = io("http://localhost:3001");
+    setSocket(newSocket);
+    newSocket.on("connect", () => {
+      console.log("Connected to server");
+      if (token) {
+        const data = { token };
+        newSocket.emit("verifyAdmin", data, (response) => {
+          console.log(response);
+          if (response.status === "success") {
+            localStorage.setItem("adminJwt", response.message.adminJwt);
+            localStorage.setItem("user", "LoggedIn");
+            setLoggedIn(true);
+          } else {
+            localStorage.removeItem("adminJwt");
+            localStorage.removeItem("user");
+            alert(response.errMessage);
+            setLoggedIn(false);
+          }
+        });
+      }
+    });
+    return () => newSocket.close();
+  }, []);
   function loginHandler(status) {
+    console.log("App -> status", status);
     setLoggedIn(status);
   }
   let currentPage = [
@@ -175,7 +205,7 @@ function App() {
     <div className={styles.App}>
       {" "}
       {!loggedIn ? (
-        <Login loginHandler={loginHandler} />
+        <Login loginHandler={loginHandler} socket={socket} />
       ) : (
         <React.Fragment>
           <Nav loginHandler={loginHandler} />
@@ -195,6 +225,7 @@ function App() {
                     <Quizzes
                       questions={questions}
                       questionHandler={questionHandler}
+                      socket={socket}
                     />
                   ),
                 }[page]

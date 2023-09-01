@@ -47,6 +47,9 @@ export default function Nav({ loginHandler }) {
         onClick={() => {
           loginHandler(false);
           localStorage.setItem("user", "");
+          localStorage.setItem("pass", "");
+          localStorage.setItem("adminJwt", "");
+          localStorage.setItem("name", "");
         }}
       >
         <span className={styles.logOutText}>Log Out</span>
