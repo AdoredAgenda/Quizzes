@@ -77,8 +77,8 @@ io.on("connect", (socket) => {
   socket.on("postQuestion", (data, cb) => {
     postQuestions(socket, data, cb);
   });
-  socket.on("emitQuestion", (data, cb) => {
-    thisQuestionData = questionSchema.find({})[data.questionNo * 1];
+  socket.on("emitQuestion", async (data, cb) => {
+    thisQuestionData = await questionSchema.find({})[data.questionNo * 1];
     data["question"] = questions[data.questionNo * 1];
     data["hasEventStarted"] = hasEventStarted;
     data["islastQuestionInProcess"] = islastQuestionInProcess;
