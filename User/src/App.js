@@ -9,11 +9,14 @@ import io from "socket.io-client";
 
 export default function App() {
   function changePage(state, action) {
+    console.log(state, action);
     switch (action.type) {
       case "next":
         return state + 1;
       case "prev":
         return state - 1;
+      case "two":
+        return state + 2;
       default:
         return state;
     }
@@ -28,33 +31,36 @@ export default function App() {
     score: 0,
   });
   useEffect(() => {
-    console.log("useEffect");
-    console.log(page);
-
-    const newSocket = io("http://localhost:3003");
+    let newSocket = io("http://localhost:3003");
     setSocket(newSocket);
-    if (!loggedIn)
-      newSocket.on("connect", () => {
-        const token = localStorage.getItem("token");
-        if (token) {
-          const data = { token };
-          console.log(data);
-          newSocket.emit("loginUser", data, (response) => {
-            if (response.success) {
-              dispatch({ type: "next" });
-              setUserData({
-                name: response.message.user.username,
-                rollNo: response.message.user.rollNo,
-              });
-              setLoggedIn(true);
-            }
-          });
-        }
-      });
-    newSocket.on("broadcast", (data) => {
-      if (data.start) dispatch({ type: "next" });
+    console.log("socket", loggedIn);
+
+    newSocket.on("connect", () => {
+      console.log("connected");
+      const token = localStorage.getItem("token");
+      if (token) {
+        const data = { token };
+        newSocket.emit("loginUser", data, (response) => {
+          if (response.success) {
+            dispatch({ type: "two" });
+            setUserData({
+              name: response.message.user.username,
+              rollNo: response.message.user.rollNo,
+            });
+            // setLoggedIn(true);
+          }
+        });
+      }
     });
-  }, []);
+
+    newSocket.on("broadcast", (data) => {
+      console.log(data);
+      if (data.start) {
+        dispatch({ type: "next" });
+      }
+    });
+    return () => newSocket.close();
+  }, [loggedIn]);
 
   let pages = [
     {
@@ -99,6 +105,7 @@ export default function App() {
       page: 4,
       jsx: (
         <QuestionPage
+          socket={socket}
           key="questionPage"
           changePage={(type) => {
             dispatch({ type: type });

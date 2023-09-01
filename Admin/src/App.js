@@ -31,11 +31,11 @@ function App() {
     newSocket.on("connect", () => {
       console.log("Connected to server");
       if (token) {
+        console.log("App -> token", token);
         const data = { token };
         newSocket.emit("verifyAdmin", data, (response) => {
           console.log(response);
           if (response.status === "success") {
-            localStorage.setItem("adminJwt", response.message.adminJwt);
             localStorage.setItem("user", "LoggedIn");
             setLoggedIn(true);
           } else {

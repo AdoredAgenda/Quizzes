@@ -1,11 +1,16 @@
 import styles from "./Start.module.css";
-
+import React from "react";
 export default function Start({ socket }) {
+  const [disabled, setDisabled] = React.useState(false);
   return (
     <div
       className={styles.button}
       onClick={(e) => {
+        e.currentTarget.classList.add(styles.disabled);
+        setDisabled(true);
+        if (disabled) return;
         socket.emit("start", { start: true }, (response) => {
+          console.log(response);
           if (response == "hello")
             alert("Now you start sending questions to the players");
           else alert("Something went wrong");

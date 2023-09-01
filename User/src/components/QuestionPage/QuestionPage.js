@@ -1,21 +1,33 @@
 import React, { useState, useEffect } from "react";
 import styles from "./QuestionPage.module.css";
 
-export default function QuestionPage() {
+export default function QuestionPage({ socket }) {
   const [time, setTime] = useState(30); // Set the initial time here (e.g., 30 seconds)
   const [question, setQuestion] = useState(1);
   const [score, setScore] = useState("000");
   const [questionStatement, setQuestionStatement] = useState(`
     Why was hitler kicked out of art school?
   `);
+  useEffect(() => {}, [time]);
+  socket.on("receive", (data) => {
+    console.log(data);
+    // setQuestion(data.question);
+  });
+  socket.on("time", (data) => {
+    setTime(data.time);
+    console.log(data.time);
+    if (data.time === 1) {
+      setTimerStopped(true);
+    }
+  });
   const [options, setOptions] = useState([
     "So He could start world war",
     "To Kill Jews",
     "To become a dictator",
     "It was a Plot by a Time Traveler",
   ]);
-  const [selectedOption, setSelectedOption] = useState(null);
   const [timerStopped, setTimerStopped] = useState(false); // State to track if the timer is stopped
+  const [selectedOption, setSelectedOption] = useState(null);
   const [submitClicked, setSubmitClicked] = useState(false); // State to track if the "Submit" button is clicked
 
   function touchHandler(option) {
@@ -23,7 +35,6 @@ export default function QuestionPage() {
   }
 
   const handleButtonClick = () => {
-    setTimerStopped(true);
     setSubmitClicked(true);
   };
 
@@ -46,24 +57,6 @@ export default function QuestionPage() {
       </div>
     );
   }
-
-  useEffect(() => {
-    // Start the timer when the component mounts
-    const timer = setInterval(() => {
-      setTime((prevTime) => {
-        if (prevTime === 0 || timerStopped) {
-          clearInterval(timer); // Stop the timer when it reaches zero or when timerStopped is true
-          return 0;
-        }
-        return prevTime - 1;
-      });
-    }, 1000);
-
-    // Stop the timer and handle any other cleanup when the component unmounts
-    return () => {
-      clearInterval(timer);
-    };
-  }, [timerStopped]);
 
   return (
     <div className={styles.page}>
