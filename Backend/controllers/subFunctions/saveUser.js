@@ -1,25 +1,24 @@
 const userSchema = require("../../models/userSchema");
-const Response = require("../../utils/response");
+const Response = require("../../utils/utilityFunctions/response");
 const callBack = require("../subFunctions/callBack");
-const generateJWT = require("../../utils/generateJwt");
-
+const generateJWT = require("../../utils/security/generateJwt");
+const { join } = require("path");
+const joinRoom = require("../../utils/utilityFunctions/joinRoom");
 const saveUser = async (socket, data, cb) => {
   try {
-    console.log(await userSchema.findOne({ rollNo: data.rollNo }));
     if (await userSchema.findOne({ rollNo: data.rollNo })) {
-      console.log("hello");
       throw new Error("userExists");
     } else {
-      console.log("else worked");
-
       const user = await userSchema.create({
         username: data.username,
         rollNo: data.rollNo,
+        role: "user",
       });
       const token = await generateJWT(process.env.USER_JWT_SECRET, {
         rollNo: user.rollNo,
       });
       const response = new Response("success", true, { user, token }, null);
+      joinRoom(socket);
       callBack(response, cb);
     }
   } catch (err) {
