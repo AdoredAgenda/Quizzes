@@ -1,5 +1,5 @@
 import { io } from "socket.io-client";
-const socket = io("http://localhost:3000");
+const socket = io("http://localhost:3003");
 // location.href = "./admin.html";
 // const socket2 = io("http://localhost:3000/user", { auth: { token: "test" } });
 // socket2.on("connect_error", (err) => {
