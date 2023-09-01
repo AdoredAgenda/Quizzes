@@ -5,25 +5,47 @@ import Login from "./components/Login/Login";
 import Waiting from "./components/Waiting/Waiting";
 import QuestionPage from "./components/QuestionPage/QuestionPage";
 import Leaderboard from "./components/Leaderboard/Leaderboard";
-function App() {
-  let userData = {
+import io from "socket.io-client";
+
+const changePage = (state, action) => {
+  console.log(state, action);
+  switch (action.type) {
+    case "next":
+      return state + 1;
+    case "prev":
+      return state - 1;
+    default:
+      return state;
+  }
+};
+
+export default function App() {
+  const [socket, setSocket] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("adminJwt"));
+  const [page, dispatch] = useReducer(changePage, 1);
+  let [userData, setUserData] = useState({
     name: "Arnav",
     rollNo: "",
     score: 0,
-  };
+  });
+  useEffect(() => {
+    const newSocket = io("http://localhost:3001");
+    setSocket(newSocket);
+    console.log(socket);
+
+    newSocket.on("connect", () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const data = { token };
+        console.log(data);
+        newSocket.emit("loginAdmin", data, (response) => {
+          console.log(response);
+        });
+      }
+    });
+  }, []);
   //change page reducer
-  const changePage = (state, action) => {
-    console.log(state, action);
-    switch (action.type) {
-      case "next":
-        return state + 1;
-      case "prev":
-        return state - 1;
-      default:
-        return state;
-    }
-  };
-  const [page, dispatch] = useReducer(changePage, 5);
+
   let pages = [
     {
       name: "Welcome",
@@ -43,6 +65,7 @@ function App() {
       jsx: (
         <Login
           key="login"
+          socket={socket}
           changePage={(type) => {
             dispatch({ type: type });
           }}
@@ -88,19 +111,6 @@ function App() {
     },
   ];
 
-  // useEffect(() => {
-  //   let token;
-  //   if (localStorage.get("token") === null) {
-  //     //fetch request here
-  //     //save token in token
-  //     localStorage.setItem("token", token);
-  //   } else {
-  //     //fetch userData
-  //     //save userData in userData
-  //     // like score, name, roll no, etc
-  //   }
-  // }, []);
-
   return (
     <div className={styles.App}>
       {pages.map((item) => {
@@ -111,5 +121,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
