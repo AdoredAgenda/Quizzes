@@ -1,8 +1,17 @@
 import styles from "./Start.module.css";
 
-export default function Start() {
+export default function Start({ socket }) {
   return (
-    <div className={styles.button}>
+    <div
+      className={styles.button}
+      onClick={(e) => {
+        socket.emit("start", { start: true }, (response) => {
+          if (response == "hello")
+            alert("Now you start sending questions to the players");
+          else alert("Something went wrong");
+        });
+      }}
+    >
       <div className={styles.icon}>
         {" "}
         <svg

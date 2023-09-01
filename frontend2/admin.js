@@ -2,7 +2,7 @@ import { io } from "socket.io-client";
 const submit = document.querySelector("button");
 const password = document.querySelector(".password");
 const username = document.querySelector(".username");
-const socket = io("http://localhost:3000");
+const socket = io("http://localhost:3003");
 // console.log(socket);
 socket.on("connect", () => {
   const token = localStorage.getItem("adminJwt");

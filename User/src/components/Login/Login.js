@@ -3,7 +3,8 @@ import img from "../../Assets/Login.png";
 import Input from "./Input/Input";
 import styles from "./Login.module.css";
 
-export default function Login({ changePage }) {
+export default function Login({ changePage, socket }) {
+  console.log(socket);
   const [name, setName] = useState("");
   const [roll, setRoll] = useState("");
   const [nameTest, setNameTest] = useState(false);
@@ -58,9 +59,16 @@ export default function Login({ changePage }) {
           className={styles.button}
           value="Submit"
           onClick={() => {
-            changePage("next");
-            localStorage.setItem("name", name);
-            localStorage.setItem("roll", roll);
+            const data = {
+              username: name,
+              rollNo: roll,
+            };
+            socket.emit("registerUser", data, (response) => {
+              console.log(response);
+              localStorage.setItem("token", response.message.token);
+              if (response.success) changePage("next");
+              else alert(response.errMessage);
+            });
           }}
           disabled={nameTest && rollTest && roll.length === 8 ? false : true}
         />
