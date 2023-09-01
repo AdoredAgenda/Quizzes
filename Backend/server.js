@@ -67,17 +67,20 @@ io.on("connect", (socket) => {
     data["hasEventStarted"] = hasEventStarted;
     data["islastQuestionInProcess"] = islastQuestionInProcess;
     sendQuestion(socket, data, cb);
+    if (!islastQuestionInProcess && hasEventStarted) {
+      const timer = setInterval(() => {
+        if (time == 0) {
+          clearInterval(timer);
+          time = 30000;
+          islastQuestionInProcess = false;
+        } else {
+          const data = { time };
+          socket.to("room1").emit("time", data);
+          time -= 1000;
+        }
+      }, 1000);
+    }
     islastQuestionInProcess = true;
-    const timer = setInterval(() => {
-      if (time == 0) {
-        clearInterval(timer);
-        time = 30000;
-        islastQuestionInProcess = false;
-      } else {
-        const data = { time };
-        socket.to("room1").emit("time", data);
-        time -= 1000;
-      }
-    }, 1000);
   });
+  socket.on("submitAnswer");
 });

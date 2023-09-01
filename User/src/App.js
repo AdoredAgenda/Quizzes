@@ -23,7 +23,7 @@ function App() {
         return state;
     }
   };
-  const [page, dispatch] = useReducer(changePage, 5);
+  const [page, dispatch] = useReducer(changePage, 1);
   let pages = [
     {
       name: "Welcome",
