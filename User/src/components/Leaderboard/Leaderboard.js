@@ -74,9 +74,9 @@ export default function Leaderboard({ name }) {
         ))}
       </div>
       <div className={styles.board}>
-        <Item name="Rahul" score="1900" serial="4" />
-        <Item name="Mahul" score="1900" serial="5" />
-        <Item name="Dahul" score="1900" serial="6" />
+        <Item key={"1"} name="Rahul" score="1900" serial="4" />
+        <Item key={"2"} name="Mahul" score="1900" serial="5" />
+        <Item key={"3"} name="Dahul" score="1900" serial="6" />
       </div>
     </div>
   );

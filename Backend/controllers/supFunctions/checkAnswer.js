@@ -5,11 +5,13 @@ const callBack = require("../subFunctions/callBack");
 
 const checkAnswer = async (socket, data, cb) => {
   const payload = verifyJWT(process.env.USER_JWT_SECRET, data.token);
+
   let wasCorrect = false;
+  const user = await userSchema.findOne({ rollNo: payload.rollNo });
   if (data.thisQuestionData.answer === data.answer) {
     wasCorrect = true;
-    const user = await userSchema.findOne({ rollNo: payload.rollNo });
-    await userSchema.upadateOne(
+    console.log("------------------------------------", user);
+    await userSchema.updateOne(
       { rollNo: payload.rollNo },
       { $set: { totalScore: user.totalScore + data.score } }
     );

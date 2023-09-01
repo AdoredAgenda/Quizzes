@@ -34,3 +34,11 @@
   background: #1a64d1;
   cursor: pointer;
 }
+.disabled {
+  background: #b0b0b0;
+  cursor: not-allowed;
+}
+.disabled:hover {
+  background: #b0b0b0;
+  cursor: not-allowed;
+}

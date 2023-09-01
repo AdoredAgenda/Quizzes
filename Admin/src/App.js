@@ -31,11 +31,11 @@ function App() {
     newSocket.on("connect", () => {
       console.log("Connected to server");
       if (token) {
+        console.log("App -> token", token);
         const data = { token };
         newSocket.emit("verifyAdmin", data, (response) => {
           console.log(response);
           if (response.status === "success") {
-            localStorage.setItem("adminJwt", response.message.adminJwt);
             localStorage.setItem("user", "LoggedIn");
             setLoggedIn(true);
           } else {
@@ -146,46 +146,46 @@ function App() {
     },
   ];
   let [questions, setQuestions] = useState([
-    {
-      question: "What is your species?",
-      options: ["Human", "Alien", "Robot", "None of the above"],
-      correctOption: "Alien",
-      points: 500,
-    },
-    {
-      question: "When did first world war start?",
-      options: ["1914", "1915", "1916", "1917"],
-      correctOption: "1914",
-      points: 100,
-    },
-    {
-      question: "Who is the president of India?",
-      options: [
-        "Narendra Modi",
-        "Ram Nath Kovind",
-        "Amit Shah",
-        "Rahul Gandhi",
-      ],
-      correctOption: "Ram Nath Kovind",
-      points: 200,
-    },
-    {
-      question: "Who found America?",
-      options: [
-        "Christopher Columbus",
-        "Vasco da Gama",
-        "Vikings",
-        "None of the above",
-      ],
-      correctOption: "Christopher Columbus",
-      points: 235,
-    },
-    {
-      question: "When did world uprise start?",
-      options: ["1914", "1915", "1916", "1917"],
-      correctOption: "1914",
-      points: 500,
-    },
+    // {
+    //   question: "What is your species?",
+    //   options: ["Human", "Alien", "Robot", "None of the above"],
+    //   correctOption: "Alien",
+    //   points: 500,
+    // },
+    // {
+    //   question: "When did first world war start?",
+    //   options: ["1914", "1915", "1916", "1917"],
+    //   correctOption: "1914",
+    //   points: 100,
+    // },
+    // {
+    //   question: "Who is the president of India?",
+    //   options: [
+    //     "Narendra Modi",
+    //     "Ram Nath Kovind",
+    //     "Amit Shah",
+    //     "Rahul Gandhi",
+    //   ],
+    //   correctOption: "Ram Nath Kovind",
+    //   points: 200,
+    // },
+    // {
+    //   question: "Who found America?",
+    //   options: [
+    //     "Christopher Columbus",
+    //     "Vasco da Gama",
+    //     "Vikings",
+    //     "None of the above",
+    //   ],
+    //   correctOption: "Christopher Columbus",
+    //   points: 235,
+    // },
+    // {
+    //   question: "When did world uprise start?",
+    //   options: ["1914", "1915", "1916", "1917"],
+    //   correctOption: "1914",
+    //   points: 500,
+    // },
   ]);
 
   function questionHandler(newQuestion, options, correctOption) {
@@ -195,8 +195,9 @@ function App() {
       points: 500,
       correctOption: correctOption,
     };
-    console.log("App -> newQuest", newQuest);
-    setQuestions([...questions, newQuest]);
+    setQuestions((prev) => {
+      return [...prev, newQuest];
+    });
   }
   function switchPage(pageName) {
     setPage(pageName);
