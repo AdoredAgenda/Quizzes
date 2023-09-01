@@ -93,6 +93,7 @@ io.on("connect", (socket) => {
         } else {
           const data = { time };
           socket.to("room1").emit("time", data);
+          io.to(socket.id).emit("time", data);
           time -= 1000;
         }
       }, 1000);

@@ -16,7 +16,7 @@ function App() {
   const [token, setToken] = useState(localStorage.getItem("adminJwt"));
   const [page, setPage] = React.useState("Dashboard");
   const [loggedIn, setLoggedIn] = React.useState(false);
-
+  const [LeaderboardList, setLeaderboardList] = useState([]);
   // useEffect(() => {
   //   if (localStorage.getItem("user") === "LoggedIn") {
   //     setLoggedIn(true);
@@ -44,6 +44,16 @@ function App() {
             alert(response.errMessage);
             setLoggedIn(false);
           }
+        });
+      }
+    });
+    newSocket.on("time", (data) => {
+      const time = data.time / 1000;
+      console.log(data);
+      if (time === 1) {
+        newSocket.emit("prepareLeaderboard", null, (response) => {
+          console.log(response.message.leaderboard);
+          setLeaderboardList(response.message.leaderboard);
         });
       }
     });
@@ -221,7 +231,7 @@ function App() {
                 {
                   Dashboard: <Dashboard list={list} />,
                   Participants: <Participants list={list} />,
-                  Leaderboard: <Leaderboard list={list} />,
+                  Leaderboard: <Leaderboard list={LeaderboardList} />,
                   Quizzes: (
                     <Quizzes
                       questions={questions}

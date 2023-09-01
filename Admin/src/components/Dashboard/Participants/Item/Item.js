@@ -1,8 +1,6 @@
 import styles from "./Item.module.css";
 export default function Item({ name, score, roll }) {
-  console.log("Item -> name", name);
-  console.log("Item -> score", score);
-  console.log("Item -> roll", roll);
+  console.log(name, score, roll);
   const nameInitialLetter = name[0].toUpperCase();
 
   return (
