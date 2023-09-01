@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 let questions = [];
 let hasEventStarted = false;
 let islastQuestionInProcess = false;
+let thisQuestionData = {};
 let time = 30000;
 // USER DEFINED MODULES
 const app = require("./app");
@@ -15,6 +16,11 @@ const postQuestions = require("./controllers/supFunctions/postQuestions");
 const questionSchema = require("./models/questionSchema");
 const sendQuestion = require("./controllers/supFunctions/sendQuestion");
 const { clearInterval } = require("timers");
+const checkAnswer = require("./controllers/supFunctions/checkAnswer");
+const prepareLeaderboard = require("./controllers/supFunctions/leaderboard");
+const Response = require("./utils/utilityFunctions/response");
+const callBack = require("./controllers/subFunctions/callBack");
+const getMyRank = require("./controllers/supFunctions/getMyRank");
 // const callBack = require("./controllers/callBack");
 dotenv.config({ path: "./.env" });
 
@@ -32,11 +38,12 @@ mongoose
   .catch((err) => {
     console.log(err.message);
   });
+
 const server = http.createServer(app);
 server.listen(port, ip, () => {
   console.log(`Server running at http://${ip}:${port}/`);
 });
-const io = require("socket.io")(server, { cors: "*" });
+const io = require("socket.io")(server, { cors: { origin: "*" } });
 io.on("connect", (socket) => {
   socket.on("registerUser", (data, cb) => {
     registerUser(socket, data, cb);
@@ -51,6 +58,7 @@ io.on("connect", (socket) => {
     loginUser(socket, data, cb);
   });
   socket.on("start", async (data, cb) => {
+    // require("./controllers/supFunctions/leaderboard");
     hasEventStarted = true;
     questions = await questionSchema.find(
       {},
@@ -63,21 +71,51 @@ io.on("connect", (socket) => {
     postQuestions(socket, data, cb);
   });
   socket.on("emitQuestion", (data, cb) => {
+    thisQuestionData = questionSchema.find({})[data.questionNo * 1];
     data["question"] = questions[data.questionNo * 1];
     data["hasEventStarted"] = hasEventStarted;
     data["islastQuestionInProcess"] = islastQuestionInProcess;
     sendQuestion(socket, data, cb);
+    if (!islastQuestionInProcess && hasEventStarted) {
+      const timer = setInterval(() => {
+        if (time == 0) {
+          clearInterval(timer);
+          time = 30000;
+          islastQuestionInProcess = false;
+        } else {
+          const data = { time };
+          socket.to("room1").emit("time", data);
+          time -= 1000;
+        }
+      }, 1000);
+    }
     islastQuestionInProcess = true;
-    const timer = setInterval(() => {
-      if (time == 0) {
-        clearInterval(timer);
-        time = 30000;
-        islastQuestionInProcess = false;
-      } else {
-        const data = { time };
-        socket.to("room1").emit("time", data);
-        time -= 1000;
-      }
-    }, 1000);
+  });
+  socket.on("submitAnswer", (data, cb) => {
+    data["thisQuestionData"] = thisQuestionData;
+    checkAnswer(socket, data, cb);
+  });
+  socket.on("prepareLeaderboard", async (data, cb) => {
+    try {
+      const leaderboard = await prepareLeaderboard();
+      const response = new Response(
+        "success",
+        true,
+        {
+          leaderboard: leaderboard.slice(0, 10),
+        },
+        null
+      );
+      socket.to("room1").emit("checkYourRank", { sendReq: true });
+      callBack(response, cb);
+      console.log("Leaderboard:", leaderboard);
+    } catch (error) {
+      const response = new Response("fail", false, err.message, null);
+      callBack(response, cb);
+      console.error("Error:", error);
+    }
+  });
+  socket.on("myRank", (data, cb) => {
+    getMyRank(socket, data, cb);
   });
 });
