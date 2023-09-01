@@ -4,7 +4,6 @@ import Input from "./Input/Input";
 import styles from "./Login.module.css";
 
 export default function Login({ changePage, socket }) {
-  console.log(socket);
   const [name, setName] = useState("");
   const [roll, setRoll] = useState("");
   const [nameTest, setNameTest] = useState(false);
