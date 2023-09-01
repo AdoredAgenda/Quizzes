@@ -7,7 +7,7 @@ export default function QuestionPage({ socket, data, changePage }) {
   const [timerStopped, setTimerStopped] = useState(false); // State to track if the timer is stopped
   const [selectedOption, setSelectedOption] = useState(null);
   const [submitClicked, setSubmitClicked] = useState(false); // State to track if the "Submit" button is clicked
-
+  const [curScore, setCurScore] = useState(500);
   useEffect(() => {
     console.log(data.time);
     if (data.time === 1) {
@@ -18,16 +18,24 @@ export default function QuestionPage({ socket, data, changePage }) {
   }, [data.time]);
   function submitHandler() {
     const token = localStorage.getItem("token");
+    setCurScore(Math.floor((data.time / 30) * 500));
     const data1 = {
       token,
       answer: selectedOption,
-      score: Math.floor((data.time / 30) * 500),
+      score: curScore,
     };
     socket.emit("submitAnswer", data1, (response) => {
       console.log(response);
     });
   }
-
+  // socket.on("checkYourResult", (data) => {
+  //   if (data.sendReq) {
+  //     const jwt = localStorage.getItem("token");
+  //     socket.emit("myRank", jwt, (data1) => {
+  //       console.log(data1);
+  //     });
+  //   }
+  // });
   const handleButtonClick = () => {
     setSubmitClicked(true);
     submitHandler();

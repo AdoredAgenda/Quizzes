@@ -2,7 +2,6 @@ import styles from "./Participants.module.css";
 import Item from "./Item/Item";
 
 export default function Participants({ list }) {
-  console.log(list);
   return (
     <div className={styles.box}>
       <p className={styles.title}>Participants</p>
@@ -10,10 +9,10 @@ export default function Participants({ list }) {
         {list.map((item) => {
           return (
             <Item
-              key={item.name}
-              name={item.name}
-              score={item.score}
-              roll={item.roll}
+              key={item.rollNo}
+              name={`${item.username}`}
+              score={item.totalScore}
+              roll={item.rollNo}
             />
           );
         })}
