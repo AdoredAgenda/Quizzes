@@ -9,11 +9,14 @@ import io from "socket.io-client";
 
 export default function App() {
   function changePage(state, action) {
+    console.log(state, action);
     switch (action.type) {
       case "next":
         return state + 1;
       case "prev":
         return state - 1;
+      case "two":
+        return state + 2;
       default:
         return state;
     }
@@ -22,38 +25,56 @@ export default function App() {
   const [socket, setSocket] = useState(null);
   const [page, dispatch] = useReducer(changePage, 1);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [data, setData] = useState({
+    time: null,
+    question: null,
+  });
   let [userData, setUserData] = useState({
     name: "Arnav",
     rollNo: "",
     score: 0,
   });
   useEffect(() => {
-    console.log("useEffect");
-    console.log(page);
-
-    const newSocket = io("http://localhost:3003");
+    let newSocket = io("http://localhost:3003");
     setSocket(newSocket);
-    if (!loggedIn)
-      newSocket.on("connect", () => {
-        const token = localStorage.getItem("token");
-        if (token) {
-          const data = { token };
-          console.log(data);
-          newSocket.emit("loginUser", data, (response) => {
-            if (response.success) {
-              dispatch({ type: "next" });
-              setUserData({
-                name: response.message.user.username,
-                rollNo: response.message.user.rollNo,
-              });
-              setLoggedIn(true);
-            }
-          });
-        }
-      });
-    newSocket.on("broadcast", (data) => {
-      if (data.start) dispatch({ type: "next" });
+
+    newSocket.on("connect", () => {
+      console.log("connected");
+      const token = localStorage.getItem("token");
+      if (token) {
+        const data = { token };
+        newSocket.emit("loginUser", data, (response) => {
+          if (response.success) {
+            dispatch({ type: "two" });
+            setUserData({
+              name: response.message.user.username,
+              rollNo: response.message.user.rollNo,
+            });
+            // setLoggedIn(true);
+          }
+        });
+      }
     });
+    newSocket.on("receive", (data) => {
+      dispatch({ type: "next" });
+      setData((prev) => {
+        return {
+          ...prev,
+          time: data.time,
+          question: data.question,
+        };
+      });
+    });
+    newSocket.on("time", (data) => {
+      setData((prev) => {
+        return {
+          ...prev,
+          time: data.time / 1000,
+        };
+      });
+    });
+
+    return () => newSocket.close();
   }, []);
 
   let pages = [
@@ -99,10 +120,10 @@ export default function App() {
       page: 4,
       jsx: (
         <QuestionPage
+          socket={socket}
           key="questionPage"
-          changePage={(type) => {
-            dispatch({ type: type });
-          }}
+          data={data}
+          changePage={dispatch}
         />
       ),
     },
@@ -113,9 +134,7 @@ export default function App() {
         <Leaderboard
           key="leaderboard"
           name={userData.name}
-          changePage={(type) => {
-            dispatch({ type: type });
-          }}
+          changePage={dispatch}
         />
       ),
     },

@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 let questions = [];
 let hasEventStarted = false;
 let islastQuestionInProcess = false;
-let thisQuestionData = {};
+let thisQuestionData = [];
 let time = 30000;
 // USER DEFINED MODULES
 const app = require("./app");
@@ -78,7 +78,8 @@ io.on("connect", (socket) => {
     postQuestions(socket, data, cb);
   });
   socket.on("emitQuestion", async (data, cb) => {
-    thisQuestionData = await questionSchema.find({})[data.questionNo * 1];
+    let questionNo = data.questionNo;
+    thisQuestionData = (await questionSchema.find({}))[1 * questionNo];
     data["question"] = questions[data.questionNo * 1];
     data["hasEventStarted"] = hasEventStarted;
     data["islastQuestionInProcess"] = islastQuestionInProcess;
@@ -101,6 +102,7 @@ io.on("connect", (socket) => {
 
   socket.on("submitAnswer", (data, cb) => {
     data["thisQuestionData"] = thisQuestionData;
+    console.log(data);
     checkAnswer(socket, data, cb);
   });
   socket.on("prepareLeaderboard", async (data, cb) => {

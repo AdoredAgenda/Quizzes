@@ -1,14 +1,27 @@
 import styles from "./Start.module.css";
-
-export default function Start({ socket }) {
+import React from "react";
+export default function Start({ socket, questionHandler }) {
+  const [disabled, setDisabled] = React.useState(false);
   return (
     <div
       className={styles.button}
       onClick={(e) => {
+        e.currentTarget.classList.add(styles.disabled);
+        setDisabled(true);
+        const data = { token: localStorage.getItem("adminJwt") };
+
+        if (disabled) return;
         socket.emit("start", { start: true }, (response) => {
+          console.log(response);
           if (response == "hello")
             alert("Now you start sending questions to the players");
           else alert("Something went wrong");
+          socket.emit("fetchAllQuestions", data, (response) => {
+            console.log(response.message.questions);
+            response.message.questions.forEach((question) => {
+              questionHandler(question.statement, question.options, "");
+            });
+          });
         });
       }}
     >
