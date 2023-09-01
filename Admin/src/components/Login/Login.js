@@ -2,7 +2,8 @@ import styles from "./Login.module.css";
 import image from "../../Assets/login.png";
 import React from "react";
 import { useState, useEffect } from "react";
-export default function Login({ loginHandler }) {
+
+export default function Login({ loginHandler, socket }) {
   const [user, setUser] = useState("");
   const [pass, setPass] = useState("");
 
@@ -13,13 +14,30 @@ export default function Login({ loginHandler }) {
     setPass(e.target.value);
   }
   function login() {
-    if (user === "admin" && pass === "admin") {
-      localStorage.setItem("user", "LoggedIn");
-      loginHandler(true);
-    } else {
-      alert("Invalid Credentials");
-      loginHandler(false);
-    }
+    // if (user === "admin" && pass === "admin") {
+    //   localStorage.setItem("user", "LoggedIn");
+    //   loginHandler(true);
+    // } else {
+    //   alert("Invalid Credentials");
+    //   loginHandler(false);
+    // }
+    socket.emit(
+      "loginAdmin",
+      { username: user, password: pass },
+      (response) => {
+        console.log(response);
+        if (response.status === "success") {
+          loginHandler(true);
+          localStorage.setItem("adminJwt", response.message.adminJwt);
+          localStorage.setItem("user", "LoggedIn");
+        } else {
+          localStorage.removeItem("adminJwt");
+          localStorage.removeItem("user");
+          alert(response.errMessage);
+          loginHandler(false);
+        }
+      }
+    );
   }
   return (
     <div className={styles.container}>
