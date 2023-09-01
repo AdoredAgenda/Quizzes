@@ -38,11 +38,12 @@ mongoose
   .catch((err) => {
     console.log(err.message);
   });
+
 const server = http.createServer(app);
 server.listen(port, ip, () => {
   console.log(`Server running at http://${ip}:${port}/`);
 });
-const io = require("socket.io")(server, { cors: "*" });
+const io = require("socket.io")(server, { cors: { origin: "*" } });
 io.on("connect", (socket) => {
   socket.on("registerUser", (data, cb) => {
     registerUser(socket, data, cb);
