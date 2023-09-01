@@ -1,7 +1,7 @@
 import styles from "./Quizzes.module.css";
 import Start from "./Buttons/Start";
 import AddQuestion from "./Buttons/AddQuestion";
-import React from "react";
+import React, { useEffect } from "react";
 import Question from "./Question/Question";
 import Popup from "./Popup/Popup";
 
@@ -20,7 +20,7 @@ export default function Quizzes({ questions, questionHandler, socket }) {
         />
       )}
       <div className={styles.buttons}>
-        <Start socket={socket} />
+        <Start socket={socket} questionHandler={questionHandler} />
         <AddQuestion popUpHandler={togglePopup} />
       </div>
       <div className={styles.questionBox}>

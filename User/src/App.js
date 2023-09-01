@@ -25,6 +25,10 @@ export default function App() {
   const [socket, setSocket] = useState(null);
   const [page, dispatch] = useReducer(changePage, 1);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [data, setData] = useState({
+    time: null,
+    question: null,
+  });
   let [userData, setUserData] = useState({
     name: "Arnav",
     rollNo: "",
@@ -33,7 +37,6 @@ export default function App() {
   useEffect(() => {
     let newSocket = io("http://localhost:3003");
     setSocket(newSocket);
-    console.log("socket", loggedIn);
 
     newSocket.on("connect", () => {
       console.log("connected");
@@ -52,15 +55,27 @@ export default function App() {
         });
       }
     });
-
-    newSocket.on("broadcast", (data) => {
-      console.log(data);
-      if (data.start) {
-        dispatch({ type: "next" });
-      }
+    newSocket.on("receive", (data) => {
+      dispatch({ type: "next" });
+      setData((prev) => {
+        return {
+          ...prev,
+          time: data.time,
+          question: data.question,
+        };
+      });
     });
+    newSocket.on("time", (data) => {
+      setData((prev) => {
+        return {
+          ...prev,
+          time: data.time / 1000,
+        };
+      });
+    });
+
     return () => newSocket.close();
-  }, [loggedIn]);
+  }, []);
 
   let pages = [
     {
@@ -107,9 +122,8 @@ export default function App() {
         <QuestionPage
           socket={socket}
           key="questionPage"
-          changePage={(type) => {
-            dispatch({ type: type });
-          }}
+          data={data}
+          changePage={dispatch}
         />
       ),
     },
@@ -120,9 +134,7 @@ export default function App() {
         <Leaderboard
           key="leaderboard"
           name={userData.name}
-          changePage={(type) => {
-            dispatch({ type: type });
-          }}
+          changePage={dispatch}
         />
       ),
     },

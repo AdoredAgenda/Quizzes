@@ -1,41 +1,36 @@
 import React, { useState, useEffect } from "react";
 import styles from "./QuestionPage.module.css";
 
-export default function QuestionPage({ socket }) {
-  const [time, setTime] = useState(30); // Set the initial time here (e.g., 30 seconds)
-  const [question, setQuestion] = useState(1);
+export default function QuestionPage({ socket, data, changePage }) {
   const [score, setScore] = useState("000");
-  const [questionStatement, setQuestionStatement] = useState(`
-    Why was hitler kicked out of art school?
-  `);
-  useEffect(() => {}, [time]);
-  socket.on("receive", (data) => {
-    console.log(data);
-    // setQuestion(data.question);
-  });
-  socket.on("time", (data) => {
-    setTime(data.time);
-    console.log(data.time);
-    if (data.time === 1) {
-      setTimerStopped(true);
-    }
-  });
-  const [options, setOptions] = useState([
-    "So He could start world war",
-    "To Kill Jews",
-    "To become a dictator",
-    "It was a Plot by a Time Traveler",
-  ]);
+
   const [timerStopped, setTimerStopped] = useState(false); // State to track if the timer is stopped
   const [selectedOption, setSelectedOption] = useState(null);
   const [submitClicked, setSubmitClicked] = useState(false); // State to track if the "Submit" button is clicked
 
-  function touchHandler(option) {
-    setSelectedOption(option);
+  useEffect(() => {
+    console.log(data.time);
+    if (data.time === 1) {
+      console.log("Time Over");
+      changePage({ type: "prev" });
+      setTimerStopped(true);
+    }
+  }, [data.time]);
+  function submitHandler() {
+    const token = localStorage.getItem("token");
+    const data1 = {
+      token,
+      answer: selectedOption,
+      score: Math.floor((data.time / 30) * 500),
+    };
+    socket.emit("submitAnswer", data1, (response) => {
+      console.log(response);
+    });
   }
 
   const handleButtonClick = () => {
     setSubmitClicked(true);
+    submitHandler();
   };
 
   // Define the ProgressBar component here
@@ -60,16 +55,16 @@ export default function QuestionPage({ socket }) {
 
   return (
     <div className={styles.page}>
-      <div className={`${time ? styles.hide : ""} ${styles.timeOver}`}>
+      <div className={`${data.time ? styles.hide : ""} ${styles.timeOver}`}>
         {submitClicked && (
           <span className={styles.timeOverText}>
             Waiting for Leaderboard {":)"}
           </span>
         )}
-        {time === 0 && !submitClicked && (
+        {data.tiem === 1 && !submitClicked && (
           <span className={styles.timeOverText}>Time Over!</span>
         )}
-        {(time === 0 || timerStopped || submitClicked) && (
+        {(data.time === 1 || timerStopped || submitClicked) && (
           <span className={styles.timeOverText1}>
             Please wait for the next Question.
           </span>
@@ -77,23 +72,23 @@ export default function QuestionPage({ socket }) {
       </div>
       <div className={styles.top}>
         <span className={styles.score}>{score}</span>
-        <span className={styles.questionNum}>Question {question}</span>
-        <span className={styles.timer}>{time} Sec</span>
+        <span className={styles.questionNum}>Question {1}</span>
+        <span className={styles.timer}>{data.time} Sec</span>
       </div>
-      <ProgressBar time={time} /> {/* Use ProgressBar component here */}
+      <ProgressBar time={data.time} /> {/* Use ProgressBar component here */}
       <div className={styles.questionBox}>
-        <span className={styles.question}>{questionStatement}</span>
+        <span className={styles.question}>{data.question.statement}</span>
       </div>
       <div className={styles.options}>
-        {options.map((option, index) => {
+        {data.question.options.map((option, index) => {
           return (
             <div
-              onTouchStart={() => touchHandler(index)}
+              onTouchStart={() => setSelectedOption(option)}
               onClick={() => {
-                setSelectedOption(index);
+                setSelectedOption(option);
               }}
               className={`${styles.option} ${
-                index === selectedOption ? styles.selectedOption : ""
+                option === selectedOption ? styles.selectedOption : ""
               }`}
               key={index}
             >
@@ -108,6 +103,11 @@ export default function QuestionPage({ socket }) {
         className={styles.button}
         disabled={selectedOption === null ? true : false}
         onClick={() => {
+          changePage({ type: "prev" });
+          handleButtonClick();
+        }}
+        onTouchStart={() => {
+          changePage({ type: "prev" });
           handleButtonClick();
         }}
       />

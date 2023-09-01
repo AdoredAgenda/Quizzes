@@ -13,9 +13,7 @@ export default function Waiting({ changePage }) {
         <div className={styles.icon}>
           <img src={clock} alt="Clock" />
         </div>
-        <span className={styles.heading}>
-          Waiting for the event to start...
-        </span>
+        <span className={styles.heading}>Please Wait...</span>
       </div>
     </React.Fragment>
   );
