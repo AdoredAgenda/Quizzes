@@ -8,7 +8,7 @@ import Leaderboard from "./components/Leaderboard/Leaderboard";
 import io from "socket.io-client";
 
 export default function App() {
-  const changePage = (state, action) => {
+  function changePage(state, action) {
     switch (action.type) {
       case "next":
         return state + 1;
@@ -17,7 +17,7 @@ export default function App() {
       default:
         return state;
     }
-  };
+  }
 
   const [socket, setSocket] = useState(null);
   const [page, dispatch] = useReducer(changePage, 1);
@@ -31,7 +31,7 @@ export default function App() {
     console.log("useEffect");
     console.log(page);
 
-    const newSocket = io("http://localhost:5000");
+    const newSocket = io("http://localhost:3003");
     setSocket(newSocket);
     if (!loggedIn)
       newSocket.on("connect", () => {
@@ -55,20 +55,6 @@ export default function App() {
       if (data.start) dispatch({ type: "next" });
     });
   }, []);
-
-  //change page reducer
-  const changePage = (state, action) => {
-    console.log(state, action);
-    switch (action.type) {
-      case "next":
-        return state + 1;
-      case "prev":
-        return state - 1;
-      default:
-        return state;
-    }
-  };
-  const [page, dispatch] = useReducer(changePage, 1);
 
   let pages = [
     {
