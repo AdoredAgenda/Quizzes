@@ -57,6 +57,18 @@ export default function App() {
   }, []);
 
   //change page reducer
+  const changePage = (state, action) => {
+    console.log(state, action);
+    switch (action.type) {
+      case "next":
+        return state + 1;
+      case "prev":
+        return state - 1;
+      default:
+        return state;
+    }
+  };
+  const [page, dispatch] = useReducer(changePage, 1);
 
   let pages = [
     {

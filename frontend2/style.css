@@ -1,0 +1,12 @@
+#messageContainer {
+  border: 1px solid black;
+  height: 500px;
+  display: none;
+}
+input {
+  width: 500px;
+  margin-top: 20px;
+}
+.room {
+  display: none;
+}
