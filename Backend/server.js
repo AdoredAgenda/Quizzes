@@ -21,6 +21,7 @@ const prepareLeaderboard = require("./controllers/supFunctions/leaderboard");
 const Response = require("./utils/utilityFunctions/response");
 const callBack = require("./controllers/subFunctions/callBack");
 const getMyRank = require("./controllers/supFunctions/getMyRank");
+const fetchAllQuestions = require("./controllers/supFunctions/fetchAllQuestions");
 // const callBack = require("./controllers/callBack");
 dotenv.config({ path: "./.env" });
 
@@ -67,6 +68,12 @@ io.on("connect", (socket) => {
     socket.to("room1").emit("broadcast", data);
     cb("hello");
   });
+  socket.on("fetchAllQuestions", (data, cb) => {
+    data["questions"] = questions;
+
+    console.log(data);
+    fetchAllQuestions(socket, data, cb);
+  });
   socket.on("postQuestion", (data, cb) => {
     postQuestions(socket, data, cb);
   });
@@ -91,6 +98,7 @@ io.on("connect", (socket) => {
     }
     islastQuestionInProcess = true;
   });
+
   socket.on("submitAnswer", (data, cb) => {
     data["thisQuestionData"] = thisQuestionData;
     checkAnswer(socket, data, cb);
