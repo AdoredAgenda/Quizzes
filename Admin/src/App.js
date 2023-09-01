@@ -26,7 +26,7 @@ function App() {
   // }, []);
 
   useEffect(() => {
-    const newSocket = io("http://localhost:3001");
+    const newSocket = io("http://localhost:5000");
     setSocket(newSocket);
     newSocket.on("connect", () => {
       console.log("Connected to server");

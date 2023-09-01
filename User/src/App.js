@@ -7,43 +7,55 @@ import QuestionPage from "./components/QuestionPage/QuestionPage";
 import Leaderboard from "./components/Leaderboard/Leaderboard";
 import io from "socket.io-client";
 
-const changePage = (state, action) => {
-  console.log(state, action);
-  switch (action.type) {
-    case "next":
-      return state + 1;
-    case "prev":
-      return state - 1;
-    default:
-      return state;
-  }
-};
-
 export default function App() {
+  const changePage = (state, action) => {
+    switch (action.type) {
+      case "next":
+        return state + 1;
+      case "prev":
+        return state - 1;
+      default:
+        return state;
+    }
+  };
+
   const [socket, setSocket] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem("adminJwt"));
   const [page, dispatch] = useReducer(changePage, 1);
+  const [loggedIn, setLoggedIn] = useState(false);
   let [userData, setUserData] = useState({
     name: "Arnav",
     rollNo: "",
     score: 0,
   });
   useEffect(() => {
-    const newSocket = io("http://localhost:3001");
-    setSocket(newSocket);
-    console.log(socket);
+    console.log("useEffect");
+    console.log(page);
 
-    newSocket.on("connect", () => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        const data = { token };
-        console.log(data);
-        newSocket.emit("loginAdmin", data, (response) => {
-          console.log(response);
-        });
-      }
+    const newSocket = io("http://localhost:5000");
+    setSocket(newSocket);
+    if (!loggedIn)
+      newSocket.on("connect", () => {
+        const token = localStorage.getItem("token");
+        if (token) {
+          const data = { token };
+          console.log(data);
+          newSocket.emit("loginUser", data, (response) => {
+            if (response.success) {
+              dispatch({ type: "next" });
+              setUserData({
+                name: response.message.user.username,
+                rollNo: response.message.user.rollNo,
+              });
+              setLoggedIn(true);
+            }
+          });
+        }
+      });
+    newSocket.on("broadcast", (data) => {
+      if (data.start) dispatch({ type: "next" });
     });
   }, []);
+
   //change page reducer
   const changePage = (state, action) => {
     console.log(state, action);
