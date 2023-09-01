@@ -4,10 +4,10 @@ import Welcome from "./components/Welcome/Welcome";
 import Login from "./components/Login/Login";
 import Waiting from "./components/Waiting/Waiting";
 import QuestionPage from "./components/QuestionPage/QuestionPage";
-
+import Leaderboard from "./components/Leaderboard/Leaderboard";
 function App() {
   let userData = {
-    name: "",
+    name: "Arnav",
     rollNo: "",
     score: 0,
   };
@@ -23,7 +23,7 @@ function App() {
         return state;
     }
   };
-  const [page, dispatch] = useReducer(changePage, 4);
+  const [page, dispatch] = useReducer(changePage, 5);
   let pages = [
     {
       name: "Welcome",
@@ -67,6 +67,19 @@ function App() {
       jsx: (
         <QuestionPage
           key="questionPage"
+          changePage={(type) => {
+            dispatch({ type: type });
+          }}
+        />
+      ),
+    },
+    {
+      name: "Leaderboard",
+      page: 5,
+      jsx: (
+        <Leaderboard
+          key="leaderboard"
+          name={userData.name}
           changePage={(type) => {
             dispatch({ type: type });
           }}

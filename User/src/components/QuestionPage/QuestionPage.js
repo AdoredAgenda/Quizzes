@@ -76,7 +76,7 @@ export default function QuestionPage() {
         {time === 0 && !submitClicked && (
           <span className={styles.timeOverText}>Time Over!</span>
         )}
-        {time === 0 && submitClicked && (
+        {(time === 0 || timerStopped || submitClicked) && (
           <span className={styles.timeOverText1}>
             Please wait for the next Question.
           </span>
