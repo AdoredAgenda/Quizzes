@@ -1,0 +1,146 @@
+.page {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  gap: 1.8rem;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.4rem 1.8rem;
+}
+.top {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: fit-content;
+}
+.score {
+  color: #fff;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 2.4rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.8rem; /* 100% */
+}
+.questionNum {
+  color: var(--neuturals-white, #fff);
+  font-family: Poppins;
+  font-size: 1.8rem;
+  font-style: normal;
+  font-weight: 500;
+  /* line-height: 32px; 160% */
+}
+.timer {
+  color: white;
+  font-family: Poppins;
+  font-size: 2.4rem;
+  font-style: normal;
+  font-weight: 500;
+}
+.questionBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 18rem;
+  background-color: white;
+  border-radius: 1.8rem;
+  margin-top: 1.2rem;
+  font-weight: 600;
+}
+.question {
+  font-size: 2rem;
+  user-select: none;
+  text-align: center;
+}
+.options {
+  margin-top: 4.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  width: 100%;
+  height: fit-content;
+}
+
+.option {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0px 8px 20px 0px rgba(87, 47, 255, 0.3);
+  width: 100%;
+  height: 6.4rem;
+  transition: all 0.1s ease-in;
+}
+.progress {
+  width: 100%;
+  border-radius: 2.4rem;
+  height: 5px;
+  background-color: #ffdecb;
+}
+.optionText {
+  color: white;
+  font-size: 1.8rem;
+  user-select: none;
+  font-weight: 600;
+}
+.selectedOption {
+  border: 2px solid #ff9151;
+  box-shadow: 0px 8px 20px 0px rgba(13, 6, 38, 0.3);
+  background-color: #ff915189;
+}
+.progress {
+  width: 100%;
+  border-radius: 2.4rem;
+  height: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #ffdecb;
+}
+.progressBar {
+  height: 100%;
+}
+.timeOver {
+  position: absolute;
+  z-index: 20;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.hide {
+  display: none;
+}
+.timeOverText1 {
+  margin-top: 1.2rem;
+  font-size: 1.8rem;
+  color: white;
+}
+.timeOverText {
+  color: white;
+  font-size: 2.8rem;
+  font-weight: 600;
+}
+.button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 6.4rem;
+  border-radius: 1.8rem;
+  border: 1px solid #fff3f3;
+  background: #aa8dff;
+  color: white;
+  margin-top: 1.2rem;
+}

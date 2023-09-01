@@ -1,12 +1,93 @@
 import styles from "./App.module.css";
-import { useEffect } from "react";
-import img from "./Assets/Illustration.png";
+import { useEffect, useState, useReducer } from "react";
+import Welcome from "./components/Welcome/Welcome";
+import Login from "./components/Login/Login";
+import Waiting from "./components/Waiting/Waiting";
+import QuestionPage from "./components/QuestionPage/QuestionPage";
+import Leaderboard from "./components/Leaderboard/Leaderboard";
 function App() {
   let userData = {
-    name: "",
+    name: "Arnav",
     rollNo: "",
     score: 0,
   };
+  //change page reducer
+  const changePage = (state, action) => {
+    console.log(state, action);
+    switch (action.type) {
+      case "next":
+        return state + 1;
+      case "prev":
+        return state - 1;
+      default:
+        return state;
+    }
+  };
+  const [page, dispatch] = useReducer(changePage, 5);
+  let pages = [
+    {
+      name: "Welcome",
+      page: 1,
+      jsx: (
+        <Welcome
+          changePage={(type) => {
+            dispatch({ type: type });
+          }}
+          key="welcome"
+        />
+      ),
+    },
+    {
+      name: "Login",
+      page: 2,
+      jsx: (
+        <Login
+          key="login"
+          changePage={(type) => {
+            dispatch({ type: type });
+          }}
+        />
+      ),
+    },
+    {
+      name: "Waiting",
+      page: 3,
+      jsx: (
+        <Waiting
+          key="waiting"
+          changePage={(type) => {
+            dispatch({ type: type });
+          }}
+        />
+      ),
+    },
+    {
+      name: "QuestionPage",
+      page: 4,
+      jsx: (
+        <QuestionPage
+          key="questionPage"
+          changePage={(type) => {
+            dispatch({ type: type });
+          }}
+        />
+      ),
+    },
+    {
+      name: "Leaderboard",
+      page: 5,
+      jsx: (
+        <Leaderboard
+          key="leaderboard"
+          name={userData.name}
+          changePage={(type) => {
+            dispatch({ type: type });
+          }}
+        />
+      ),
+    },
+  ];
+
   // useEffect(() => {
   //   let token;
   //   if (localStorage.get("token") === null) {
@@ -22,15 +103,11 @@ function App() {
 
   return (
     <div className={styles.App}>
-      <div className={styles.header}>
-        <img src={img} alt="Google Logo" />
-      </div>
-      <div className={styles.main}>
-        <span className={styles.heading}>Interesting QUIZ Awaits You</span>
-        <span className={styles.text}>
-          play quizzes with your friends and get various prizes
-        </span>
-      </div>
+      {pages.map((item) => {
+        if (page === item.page) {
+          return item.jsx;
+        }
+      })}
     </div>
   );
 }

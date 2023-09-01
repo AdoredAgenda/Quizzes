@@ -9,65 +9,8 @@
   height: 100%;
   gap: 2.4rem;
   width: 100%;
-  background: linear-gradient(169deg, #9f7fff 0%, #8055fe 96.38%);
-}
-.header {
-  width: 100%;
-  height: fit-content;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 3.4rem;
   overflow: hidden;
-}
-.header > img {
-  width: 100%;
-  /* margin-bottom: 1rem; */
-}
-.main {
-  border-radius: 4rem;
-  background: #fff;
-  height: 40rem;
-  margin: 0 2.4rem;
-  display: flex;
-  gap: 1.2rem;
-  flex-direction: column;
-  padding: 4rem;
-}
-.heading {
-  color: #280a82;
-  text-align: center;
-  font-family: Poppins;
-  font-size: 28px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 36px; /* 128.571% */
-}
-.text {
-  color: var(--neuturals-grey-2, #a7a7a7);
-  text-align: center;
-  font-family: Poppins;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 24px; /* 150% */
-}
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-.box {
-  display: flex;
-  padding: 1.8rem;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 1rem;
-  flex: 1 0 0;
-  align-self: stretch;
-  border-radius: 1.2rem;
-  /* height: 100%; */
-  background: #fff;
-  box-shadow: 4px 4px 12px 0px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(169deg, #9f7fff 0%, #8055fe 96.38%);
 }
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -97,4 +40,9 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
 }
