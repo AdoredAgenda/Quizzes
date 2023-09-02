@@ -61,8 +61,10 @@ export default function Login({ changePage, socket }) {
             };
             socket.emit("registerUser", data, (response) => {
               console.log(response);
-              localStorage.setItem("token", response.message.token);
-              if (response.success) changePage("next");
+              const token = response.message ? response.message.token : "";
+              console.log(token);
+              localStorage.setItem("token", token);
+              if (response.success) changePage({ type: "next" });
               else alert(response.errMessage);
             });
           }}

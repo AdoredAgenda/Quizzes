@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./Waiting.module.css";
 import img from "../../Assets/bg2.png";
 import clock from "../../Assets/Clock.svg";

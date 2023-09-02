@@ -5,7 +5,7 @@ let questions = [];
 let hasEventStarted = false;
 let islastQuestionInProcess = false;
 let thisQuestionData = [];
-let time = 5000;
+let time = 30000;
 // USER DEFINED MODULES
 const app = require("./app");
 const registerUser = require("./controllers/supFunctions/registerUser");
@@ -88,7 +88,7 @@ io.on("connect", (socket) => {
       const timer = setInterval(() => {
         if (time == 0) {
           clearInterval(timer);
-          time = 5000;
+          time = 30000;
           islastQuestionInProcess = false;
         } else {
           const data = { time };
