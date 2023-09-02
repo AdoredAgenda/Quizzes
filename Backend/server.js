@@ -22,6 +22,7 @@ const Response = require("./utils/utilityFunctions/response");
 const callBack = require("./controllers/subFunctions/callBack");
 const getMyRank = require("./controllers/supFunctions/getMyRank");
 const fetchAllQuestions = require("./controllers/supFunctions/fetchAllQuestions");
+const sendLeaderboardData = require("./controllers/supFunctions/sendLeaderboardData");
 // const callBack = require("./controllers/callBack");
 dotenv.config({ path: "./.env" });
 
@@ -121,13 +122,16 @@ io.on("connect", (socket) => {
 
       callBack(response, cb);
       console.log("Leaderboard:", leaderboard);
-    } catch (error) {
+    } catch (err) {
       const response = new Response("fail", false, err.message, null);
       callBack(response, cb);
-      console.error("Error:", error);
+      console.error("Error:", err);
     }
   });
   socket.on("myRank", (data, cb) => {
     getMyRank(socket, data, cb);
+  });
+  socket.on("sendLeaderboardData", (data, cb) => {
+    sendLeaderboardData();
   });
 });
