@@ -34,12 +34,13 @@ export default function App() {
   const [wasCorrect, setWasCorrect] = useState(false);
   const [showBoard, setShowBoard] = useState(false);
   const [response, setResponse] = useState(null);
+  const [newQuestion, setNewQuestion] = useState(false);
+
   const [myData, setMyData] = useState({
     rank: 0,
     totalScore: 0,
     username: "",
   });
-
   function responseHandler(newRes) {
     setResponse(newRes);
     console.log(newRes);
@@ -92,10 +93,7 @@ export default function App() {
       }
     });
     newSocket.on("receive", (data) => {
-      if (page === 3) dispatch({ type: "next" });
-      else {
-        dispatch({ type: "prev" });
-      }
+      setNewQuestion((prev) => !prev);
       setData((prev) => {
         return {
           ...prev,
@@ -115,7 +113,13 @@ export default function App() {
     });
     return () => newSocket.close();
   }, []);
-
+  useEffect(() => {
+    if (page === 3) {
+      dispatch({ type: "next" });
+    } else if (page === 5) {
+      dispatch({ type: "prev" });
+    }
+  }, [newQuestion]);
   let pages = [
     {
       name: "Welcome",
@@ -143,6 +147,7 @@ export default function App() {
           message={message}
           score={score}
           changePage={dispatch}
+          newQuestion={newQuestion}
         />
       ),
     },
@@ -171,6 +176,7 @@ export default function App() {
           show={showBoard}
           rank={myData.rank}
           score={myData.totalScore}
+          newQuestion={newQuestion}
         />
       ),
     },
