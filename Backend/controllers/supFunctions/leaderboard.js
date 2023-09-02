@@ -1,4 +1,5 @@
-const User = require("../../models/userSchema"); // Import your user model
+const User = require("../../models/userSchema");
+const Leaderboard = require("../../models/leaderboardSchema"); // Import your leaderboard model
 
 async function prepareLeaderboard() {
   try {
@@ -14,11 +15,30 @@ async function prepareLeaderboard() {
     const promises = leaderboard.map((user) => user.save());
     await Promise.all(promises);
 
+    // Create or update the Leaderboard document
+    const leaderboardData = leaderboard.map((user) => ({
+      username: user.username,
+      rollNo: user.rollNo,
+      totalScore: user.totalScore,
+      rank: user.rank,
+    }));
+
+    // Use findOneAndUpdate with upsert: true to create or update the Leaderboard document
+    await Leaderboard.findOneAndUpdate(
+      {},
+      { leaderboard: leaderboardData },
+      { upsert: true }
+    );
+
     // Return the array of leaderboard
     return leaderboard;
   } catch (error) {
-    console.error("Error preparing leaderboard:", error);
+    console.error(
+      "Error preparing leaderboard and updating collection:",
+      error
+    );
     throw error;
   }
 }
+
 module.exports = prepareLeaderboard;
