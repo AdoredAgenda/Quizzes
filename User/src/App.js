@@ -35,6 +35,7 @@ export default function App() {
   const [showBoard, setShowBoard] = useState(false);
   const [response, setResponse] = useState(null);
   const [newQuestion, setNewQuestion] = useState(false);
+  const [leaderboardData, setLeaderboardData] = useState([{}]);
 
   const [myData, setMyData] = useState({
     rank: 0,
@@ -57,7 +58,7 @@ export default function App() {
     score: 0,
   });
   useEffect(() => {
-    let newSocket = io("http://192.168.141.180:3003");
+    let newSocket = io("http://192.168.141.180:3003/");
     setSocket(newSocket);
 
     newSocket.on("connect", () => {
@@ -110,6 +111,12 @@ export default function App() {
           time: data.time / 1000,
         };
       });
+    });
+
+    newSocket.on("sendLeaderboardData", (response) => {
+      // let { newLeadBoa } = response.data;
+      let newLeadBoa = response.leaderBoardData;
+      setLeaderboardData(newLeadBoa);
     });
     return () => newSocket.close();
   }, []);
@@ -177,6 +184,7 @@ export default function App() {
           rank={myData.rank}
           score={myData.totalScore}
           newQuestion={newQuestion}
+          leaderboardData={leaderboardData}
         />
       ),
     },

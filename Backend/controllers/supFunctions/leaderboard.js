@@ -22,14 +22,12 @@ async function prepareLeaderboard() {
       totalScore: user.totalScore,
       rank: user.rank,
     }));
-
-    const newLeaderboard = new Leaderboard({
-      leaderboard: leaderboardData,
-    });
-
-    // Save the new leaderboard document to the collection
-    await newLeaderboard.save();
-
+    // Use findOneAndUpdate with upsert: true to create or update the Leaderboard document
+    await Leaderboard.findOneAndUpdate(
+      {},
+      { leaderboard: leaderboardData },
+      { upsert: true }
+    );
     // Return the array of leaderboard
     return leaderboard;
   } catch (error) {
