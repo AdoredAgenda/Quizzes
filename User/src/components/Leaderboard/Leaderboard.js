@@ -12,16 +12,41 @@ export default function Leaderboard({
   show,
   leaderboardData,
 }) {
-  // console.log(correct, show);
-  const toppers = leaderboardData.splice(0, 3);
-  const rest = leaderboardData.splice(3);
+  console.log(leaderboardData);
+
+  let toppersData = [
+    {
+      pos: "3",
+      css: {
+        clipPath: "polygon(5% 23%, 95% 0, 95% 100%, 5% 100%)",
+        height: "50%",
+        moveX: "-10",
+      },
+    },
+    {
+      pos: "1",
+      css: {
+        clipPath: "polygon(5% 18%, 95% 0%, 95% 100%, 5% 100%)",
+        height: "80%",
+        moveX: "0",
+      },
+    },
+    {
+      pos: "2",
+      css: {
+        clipPath: "polygon(5% 0, 95% 10%, 95% 100%, 5% 100%)",
+        height: "60%",
+        moveX: "10",
+      },
+    },
+  ];
   let nameInit;
   name ? (nameInit = name[0].toUpperCase()) : (nameInit = "");
   return (
     <div className={styles.app}>
       <Notifier correct={correct} show={show} />
       <div className={styles.top}>
-        <div className={styles.backIcon}>
+        {/* <div className={styles.backIcon}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="22"
@@ -35,7 +60,7 @@ export default function Leaderboard({
               fillOpacity="0.9"
             />
           </svg>
-        </div>
+        </div> */}
         <div className={styles.nameInit}>
           <span className={styles.name}>{nameInit}</span>
         </div>
@@ -45,24 +70,50 @@ export default function Leaderboard({
         <span className={styles.rank}>{score} Points</span>
       </div>
       <div className={styles.toppers}>
-        {toppers.map((item) => (
+        {console.log(leaderboardData)}
+        {leaderboardData.length >= 1 && (
           <Toppers
-            name={item.name}
-            score={item.score}
-            pos={item.pos}
-            css={item.css}
+            name={leaderboardData[2].username}
+            score={leaderboardData[2].totalScore}
+            pos={toppersData[0].pos}
+            css={toppersData[0].css}
+            rollNo={leaderboardData[2].rollNo}
           />
-        ))}
+        )}
+        {leaderboardData.length >= 2 && (
+          <Toppers
+            name={leaderboardData[0].username}
+            score={leaderboardData[0].totalScore}
+            pos={toppersData[1].pos}
+            css={toppersData[1].css}
+            rollNo={leaderboardData[0].rollNo}
+          />
+        )}
+        {leaderboardData.length >= 3 && (
+          <Toppers
+            name={leaderboardData[1].username}
+            score={leaderboardData[1].totalScore}
+            pos={toppersData[2].pos}
+            css={toppersData[2].css}
+            rollNo={leaderboardData[1].rollNo}
+          />
+        )}
       </div>
       <div className={styles.board}>
-        {rest.map((item) => (
-          <Item
-            key={item.rollNo}
-            name={item.name}
-            score={item.score}
-            serial={item.serial}
-          />
-        ))}
+        {leaderboardData.length >= 4 &&
+          leaderboardData.map((item, ind) => {
+            if ((ind > 2) & (ind < 10)) {
+              return (
+                <Item
+                  key={ind}
+                  name={item.username}
+                  score={item.totalScore}
+                  serial={ind + 1}
+                  rollNo={item.rollNo}
+                />
+              );
+            }
+          })}
       </div>
     </div>
   );

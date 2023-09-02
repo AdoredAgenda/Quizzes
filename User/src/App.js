@@ -113,9 +113,10 @@ export default function App() {
       });
     });
 
-    newSocket.emit("sendLeaderboardData", null, (response) => {
-      console.log(response);
-      setLeaderboardData(response.data);
+    newSocket.on("sendLeaderboardData", (response) => {
+      // let { newLeadBoa } = response.data;
+      let newLeadBoa = response.leaderBoardData;
+      setLeaderboardData(newLeadBoa);
     });
     return () => newSocket.close();
   }, []);
