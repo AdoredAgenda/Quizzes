@@ -37,10 +37,9 @@ export default function QuestionPage({ socket, data, changePage }) {
     if (data.time === 1) {
       console.log("Time Over");
       if (!state.message) {
-        // Check if message is not already set
         dispatch({ type: "message", payload: `Time's Up :(` });
       }
-      changePage({ type: "prev", score: 0 });
+      changePage({ type: "prev", score: 0, message: "Time's Up :(" });
       dispatch({ type: "timerStopped", payload: true });
     }
     dispatch({ type: "curScore", payload: Math.floor((data.time / 30) * 500) });
