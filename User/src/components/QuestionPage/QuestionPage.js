@@ -1,7 +1,12 @@
 import React, { useReducer, useEffect, useState } from "react";
 import styles from "./QuestionPage.module.css"; // Import your CSS styles here
 
-export default function QuestionPage({ socket, data, changePage }) {
+export default function QuestionPage({
+  socket,
+  data,
+  changePage,
+  responseHandler,
+}) {
   const initialState = {
     score: "000",
     timerStopped: false,
@@ -36,12 +41,22 @@ export default function QuestionPage({ socket, data, changePage }) {
   useEffect(() => {
     if (data.time === 1) {
       console.log("Time Over");
-      if (!state.message) {
+      dispatch({ type: "timerStopped", payload: true });
+      if (!state.timerStopped) {
         dispatch({ type: "message", payload: `Time's Up :(` });
+      } else {
+        let value = Math.floor((data.time / 30) * 500);
+        changePage({
+          type: "prev",
+          message: "Let's wait for others to finish",
+          score: value ? value : 0,
+          data,
+        });
       }
-      changePage({ type: "prev", score: 0, message: "Time's Up :(" });
+
       dispatch({ type: "timerStopped", payload: true });
     }
+
     dispatch({ type: "curScore", payload: Math.floor((data.time / 30) * 500) });
   }, [data.time, state.message, changePage]);
 
@@ -57,13 +72,15 @@ export default function QuestionPage({ socket, data, changePage }) {
       };
       socket.emit("submitAnswer", data1, (response) => {
         console.log(response);
+        responseHandler(response);
         response.message.wasCorrect
           ? dispatch({ type: "score", payload: data1.score })
           : dispatch({ type: "score", payload: 0 });
         changePage({
           type: "prev",
           message: "Let's wait for others to finish",
-          score: state.curScore,
+          score: data1.score ? data1.score : 0,
+          data,
         });
       });
     }

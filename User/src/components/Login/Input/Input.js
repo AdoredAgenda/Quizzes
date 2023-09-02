@@ -8,14 +8,20 @@ export default function Input({ placeholder, value, changeHandler }) {
   };
   return (
     <div className={styles.input}>
-      <span
+      <label
+        htmlFor="MyItem"
+        onClick={(e) => {
+          e.preventDefault();
+          e.currentTarget.parentElement.children[1].focus();
+        }}
         className={`${styles.placeholder} ${
           val.length > 0 ? styles.movedPlaceholder : ""
         }`}
       >
         {placeholder}
-      </span>
+      </label>
       <input
+        name="myItem"
         type="text"
         className={styles.inputBox}
         value={val}
