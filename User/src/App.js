@@ -58,7 +58,7 @@ export default function App() {
     score: 0,
   });
   useEffect(() => {
-    let newSocket = io("http://192.168.141.180:3003");
+    let newSocket = io("http://192.168.29.122:3003");
     setSocket(newSocket);
 
     newSocket.on("connect", () => {
@@ -111,12 +111,11 @@ export default function App() {
           time: data.time / 1000,
         };
       });
-      if (data.time / 1000 === 1) {
-        newSocket("sendLeaderboardData", null, (response) => {
-          console.log(response);
-          setLeaderboardData(response.data);
-        });
-      }
+    });
+
+    newSocket.emit("sendLeaderboardData", null, (response) => {
+      console.log(response);
+      setLeaderboardData(response.data);
     });
     return () => newSocket.close();
   }, []);

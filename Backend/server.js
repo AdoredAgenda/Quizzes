@@ -132,6 +132,6 @@ io.on("connect", (socket) => {
     getMyRank(socket, data, cb);
   });
   socket.on("sendLeaderboardData", (data, cb) => {
-    sendLeaderboardData();
+    sendLeaderboardData(socket, data, cb);
   });
 });

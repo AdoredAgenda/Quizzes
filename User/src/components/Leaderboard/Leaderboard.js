@@ -13,8 +13,8 @@ export default function Leaderboard({
   leaderboardData,
 }) {
   // console.log(correct, show);
-  const toppers = Leaderboard.splice(0, 3);
-  const rest = Leaderboard.splice(3);
+  const toppers = leaderboardData.splice(0, 3);
+  const rest = leaderboardData.splice(3);
   let nameInit;
   name ? (nameInit = name[0].toUpperCase()) : (nameInit = "");
   return (
