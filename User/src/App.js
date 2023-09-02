@@ -58,7 +58,7 @@ export default function App() {
     score: 0,
   });
   useEffect(() => {
-    let newSocket = io("http://192.168.29.122:3003");
+    let newSocket = io("https://quizbackend-ks0n.onrender.com");
     setSocket(newSocket);
 
     newSocket.on("connect", () => {
