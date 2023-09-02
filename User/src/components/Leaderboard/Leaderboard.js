@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./Leaderboard.module.css";
 import Toppers from "./Toppers/Toppers";
 import Item from "./Item/Item";
 import Notifier from "./Notifier/Notifier";
 
-export default function Leaderboard({ name, rank, score, correct, show }) {
+export default function Leaderboard({
+  name,
+  rank,
+  score,
+  correct,
+  show,
+  changePage,
+  newQuestion,
+}) {
   // console.log(correct, show);
-  console.log(rank, score, name);
   const toppers = [
     {
       name: "Dahul",
@@ -40,7 +47,8 @@ export default function Leaderboard({ name, rank, score, correct, show }) {
       },
     },
   ];
-  const nameInit = name[0].toUpperCase();
+  let nameInit;
+  name ? (nameInit = name[0].toUpperCase()) : (nameInit = "");
   return (
     <div className={styles.app}>
       <Notifier correct={correct} show={show} />

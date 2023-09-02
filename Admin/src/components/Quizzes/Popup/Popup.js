@@ -128,6 +128,14 @@ export default function Popup({ popUpHandler, questionHandler, socket }) {
             insertQuest(question, options, correct);
             questionHandler(question, options, correct);
             popUpHandler();
+            const data = { token: localStorage.getItem("adminJwt") };
+
+            socket.emit("fetchAllQuestions", data, (response) => {
+              console.log(response.message.questions);
+              response.message.questions.forEach((question) => {
+                questionHandler(question.statement, question.options, "");
+              });
+            });
           }}
         />
       </div>

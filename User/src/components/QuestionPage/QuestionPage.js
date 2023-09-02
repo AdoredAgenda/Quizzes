@@ -45,16 +45,14 @@ export default function QuestionPage({
       if (!state.timerStopped) {
         dispatch({ type: "message", payload: `Time's Up :(` });
       } else {
-        let value = Math.floor((data.time / 30) * 500);
-        changePage({
-          type: "prev",
-          message: "Let's wait for others to finish",
-          score: value ? value : 0,
-          data,
+        dispatch({
+          type: "message",
+          payload: `Please wait for the next Question`,
         });
       }
 
       dispatch({ type: "timerStopped", payload: true });
+      submitHandler();
     }
 
     dispatch({ type: "curScore", payload: Math.floor((data.time / 30) * 500) });
@@ -71,15 +69,12 @@ export default function QuestionPage({
         score: Math.floor((data.time / 30) * 500),
       };
       socket.emit("submitAnswer", data1, (response) => {
-        console.log(response);
         responseHandler(response);
-        response.message.wasCorrect
-          ? dispatch({ type: "score", payload: data1.score })
-          : dispatch({ type: "score", payload: 0 });
+        let val = Math.floor((data.time / 30) * 500);
         changePage({
           type: "prev",
           message: "Let's wait for others to finish",
-          score: data1.score ? data1.score : 0,
+          score: response.message.wasCorrect ? val : 0,
           data,
         });
       });
