@@ -15,15 +15,16 @@ export default function QuestionPage({ socket, data, changePage }) {
       changePage({ type: "prev" });
       setTimerStopped(true);
     }
+    setCurScore(Math.floor((data.time / 30) * 500));
   }, [data.time]);
   function submitHandler() {
     const token = localStorage.getItem("token");
-    setCurScore(Math.floor((data.time / 30) * 500));
     const data1 = {
       token,
       answer: selectedOption,
-      score: curScore,
+      score: Math.floor((data.time / 30) * 500),
     };
+    setCurScore(data1.score);
     socket.emit("submitAnswer", data1, (response) => {
       console.log(response);
     });
@@ -79,7 +80,7 @@ export default function QuestionPage({ socket, data, changePage }) {
         )}
       </div>
       <div className={styles.top}>
-        <span className={styles.score}>{score}</span>
+        <span className={styles.score}>{curScore}</span>
         <span className={styles.questionNum}>Question {1}</span>
         <span className={styles.timer}>{data.time} Sec</span>
       </div>
