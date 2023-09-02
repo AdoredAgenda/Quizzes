@@ -7,7 +7,9 @@
   border: 1px solid var(--neuturals-white, #fff);
   background: #aa8dff;
   position: relative;
-  box-shadow: 0px 16px 32px 0px rgba(54, 16, 166, 0.4);
+  /* outline: 32px solid black; */
+
+  box-shadow: 2px 2px 16px 0px rgba(93, 73, 151, 0.4);
 }
 .placeholder {
   font-size: 1.6rem;

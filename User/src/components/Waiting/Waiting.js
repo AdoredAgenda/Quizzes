@@ -14,7 +14,7 @@ export default function Waiting(props) {
           <img src={clock} alt="Clock" />
         </div>
 
-        <span className={styles.heading}>{props.message && props.score}</span>
+        {/* <span className={styles.heading}>{props.score ? props.score : ""}</span> */}
         <span className={`${styles.score} ${styles.top}`}>
           {props.message || "Please Wait for the event to Start..."}
         </span>
