@@ -2,7 +2,11 @@ import React from "react";
 import styles from "./Leaderboard.module.css";
 import Toppers from "./Toppers/Toppers";
 import Item from "./Item/Item";
-export default function Leaderboard({ name }) {
+import Notifier from "./Notifier/Notifier";
+
+export default function Leaderboard({ name, rank, score, correct, show }) {
+  // console.log(correct, show);
+  console.log(rank, score, name);
   const toppers = [
     {
       name: "Dahul",
@@ -39,6 +43,7 @@ export default function Leaderboard({ name }) {
   const nameInit = name[0].toUpperCase();
   return (
     <div className={styles.app}>
+      <Notifier correct={correct} show={show} />
       <div className={styles.top}>
         <div className={styles.backIcon}>
           <svg
@@ -60,8 +65,8 @@ export default function Leaderboard({ name }) {
         </div>
       </div>
       <div className={styles.textBox}>
-        <span className={styles.position}>Rank - #101</span>
-        <span className={styles.rank}>1287 Points</span>
+        <span className={styles.position}>Rank - #{rank}</span>
+        <span className={styles.rank}>{score} Points</span>
       </div>
       <div className={styles.toppers}>
         {toppers.map((item) => (

@@ -5,7 +5,7 @@ let questions = [];
 let hasEventStarted = false;
 let islastQuestionInProcess = false;
 let thisQuestionData = [];
-let time = 30000;
+let time = 5000;
 // USER DEFINED MODULES
 const app = require("./app");
 const registerUser = require("./controllers/supFunctions/registerUser");
@@ -88,7 +88,7 @@ io.on("connect", (socket) => {
       const timer = setInterval(() => {
         if (time == 0) {
           clearInterval(timer);
-          time = 30000;
+          time = 5000;
           islastQuestionInProcess = false;
         } else {
           const data = { time };
@@ -118,6 +118,7 @@ io.on("connect", (socket) => {
         null
       );
       socket.to("room1").emit("checkYourRank", { sendReq: true });
+
       callBack(response, cb);
       console.log("Leaderboard:", leaderboard);
     } catch (error) {

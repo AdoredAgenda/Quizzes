@@ -14,6 +14,7 @@ export default function App() {
       case "next":
         return state + 1;
       case "prev":
+        // setTempData(action.data);
         setMessage(action.message);
         setScore(action.score);
         return state - 1;
@@ -23,11 +24,28 @@ export default function App() {
         return state;
     }
   }
+  // const [time, setTime] = useState(30);
+  // const [tempData, setTempData] = useState([{}]);
   const [score, setScore] = useState(0);
   const [message, setMessage] = useState("");
   const [socket, setSocket] = useState(null);
   const [page, dispatch] = useReducer(changePage, 1);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [wasCorrect, setWasCorrect] = useState(false);
+  const [showBoard, setShowBoard] = useState(false);
+  const [response, setResponse] = useState(null);
+  const [myData, setMyData] = useState({
+    rank: 0,
+    totalScore: 0,
+    username: "",
+  });
+
+  function responseHandler(newRes) {
+    setResponse(newRes);
+    console.log(newRes);
+    setWasCorrect(newRes.message.wasCorrect);
+    setShowBoard(true);
+  }
   const [data, setData] = useState({
     time: null,
     question: null,
@@ -58,8 +76,26 @@ export default function App() {
         });
       }
     });
+    newSocket.on("checkYourRank", (response) => {
+      console.log("checkYourResult");
+      console.log(response);
+      if (response.sendReq) {
+        const token = localStorage.getItem("token");
+        const data = { token };
+        newSocket.emit("myRank", data, (newRes) => {
+          console.log(newRes);
+          dispatch({ type: "next" });
+          dispatch({ type: "next" });
+          console.log(newRes.message);
+          setMyData(newRes.message.user);
+        });
+      }
+    });
     newSocket.on("receive", (data) => {
-      dispatch({ type: "next" });
+      if (page === 3) dispatch({ type: "next" });
+      else {
+        dispatch({ type: "prev" });
+      }
       setData((prev) => {
         return {
           ...prev,
@@ -67,6 +103,7 @@ export default function App() {
           question: data.question,
         };
       });
+      console.log(data);
     });
     newSocket.on("time", (data) => {
       setData((prev) => {
@@ -95,15 +132,7 @@ export default function App() {
     {
       name: "Login",
       page: 2,
-      jsx: (
-        <Login
-          key="login"
-          socket={socket}
-          changePage={(type) => {
-            dispatch({ type: type });
-          }}
-        />
-      ),
+      jsx: <Login key="login" socket={socket} changePage={dispatch} />,
     },
     {
       name: "Waiting",
@@ -113,9 +142,7 @@ export default function App() {
           key="waiting"
           message={message}
           score={score}
-          changePage={(type) => {
-            dispatch({ type: type });
-          }}
+          changePage={dispatch}
         />
       ),
     },
@@ -128,6 +155,7 @@ export default function App() {
           key="questionPage"
           data={data}
           changePage={dispatch}
+          responseHandler={responseHandler}
         />
       ),
     },
@@ -137,8 +165,12 @@ export default function App() {
       jsx: (
         <Leaderboard
           key="leaderboard"
-          name={userData.name}
+          name={myData.username}
           changePage={dispatch}
+          correct={wasCorrect}
+          show={showBoard}
+          rank={myData.rank}
+          score={myData.totalScore}
         />
       ),
     },
