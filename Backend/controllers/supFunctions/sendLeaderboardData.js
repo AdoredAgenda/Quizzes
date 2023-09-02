@@ -6,11 +6,9 @@ const sendLeaderboardData = async () => {
   try {
     const leaderboardData = await leaderboardSchema.find({});
     const leaderboard = leaderboardData[0].leaderboard;
-    const response = new Response("success", true, { data: leaderboard }, null);
-    callBack(response, cb);
+    return leaderboard;
   } catch (err) {
-    const response = Response("fail", false, null, err.message);
-    callBack(response, cb);
+    throw new Error(err.message);
   }
 };
 module.exports = sendLeaderboardData;

@@ -119,7 +119,8 @@ io.on("connect", (socket) => {
         null
       );
       socket.to("room1").emit("checkYourRank", { sendReq: true });
-
+      const leaderBoardData = sendLeaderboardData();
+      socket.to("room1").emit("sendLeaderboardData", { leaderboard });
       callBack(response, cb);
       console.log("Leaderboard:", leaderboard);
     } catch (err) {
@@ -130,8 +131,5 @@ io.on("connect", (socket) => {
   });
   socket.on("myRank", (data, cb) => {
     getMyRank(socket, data, cb);
-  });
-  socket.on("sendLeaderboardData", (data, cb) => {
-    sendLeaderboardData();
   });
 });
