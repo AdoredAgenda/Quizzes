@@ -15,7 +15,7 @@ async function prepareLeaderboard() {
     const promises = leaderboard.map((user) => user.save());
     await Promise.all(promises);
 
-    // Create or update the Leaderboard document
+    // Create a new Leaderboard document with the updated leaderboard data
     const leaderboardData = leaderboard.map((user) => ({
       username: user.username,
       rollNo: user.rollNo,
@@ -23,12 +23,12 @@ async function prepareLeaderboard() {
       rank: user.rank,
     }));
 
-    // Use findOneAndUpdate with upsert: true to create or update the Leaderboard document
-    await Leaderboard.findOneAndUpdate(
-      {},
-      { leaderboard: leaderboardData },
-      { upsert: true }
-    );
+    const newLeaderboard = new Leaderboard({
+      leaderboard: leaderboardData,
+    });
+
+    // Save the new leaderboard document to the collection
+    await newLeaderboard.save();
 
     // Return the array of leaderboard
     return leaderboard;

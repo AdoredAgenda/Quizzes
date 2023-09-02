@@ -120,7 +120,7 @@ io.on("connect", (socket) => {
       );
       socket.to("room1").emit("checkYourRank", { sendReq: true });
       const leaderBoardData = sendLeaderboardData();
-      socket.to("room1").emit("sendLeaderboardData", { leaderboard });
+      socket.to("room1").emit("sendLeaderboardData", { leaderBoardData });
       callBack(response, cb);
       console.log("Leaderboard:", leaderboard);
     } catch (err) {
