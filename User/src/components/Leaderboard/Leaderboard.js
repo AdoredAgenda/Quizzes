@@ -10,43 +10,11 @@ export default function Leaderboard({
   score,
   correct,
   show,
-  changePage,
-  newQuestion,
+  leaderboardData,
 }) {
   // console.log(correct, show);
-  const toppers = [
-    {
-      name: "Dahul",
-      score: "1900",
-      pos: "3",
-      css: {
-        clipPath: "polygon(5% 23%, 95% 0, 95% 100%, 5% 100%)",
-        height: "50%",
-        moveX: "-10",
-      },
-    },
-    {
-      name: "Rahul",
-      score: "1900",
-      pos: "1",
-      css: {
-        clipPath: "polygon(5% 18%, 95% 0%, 95% 100%, 5% 100%)",
-        height: "80%",
-        moveX: "0",
-      },
-    },
-
-    {
-      name: "Mahul",
-      score: "1900",
-      pos: "2",
-      css: {
-        clipPath: "polygon(5% 0, 95% 10%, 95% 100%, 5% 100%)",
-        height: "60%",
-        moveX: "10",
-      },
-    },
-  ];
+  const toppers = leaderboardData.splice(0, 3);
+  const rest = leaderboardData.splice(3);
   let nameInit;
   name ? (nameInit = name[0].toUpperCase()) : (nameInit = "");
   return (
@@ -87,9 +55,14 @@ export default function Leaderboard({
         ))}
       </div>
       <div className={styles.board}>
-        <Item key={"1"} name="Rahul" score="1900" serial="4" />
-        <Item key={"2"} name="Mahul" score="1900" serial="5" />
-        <Item key={"3"} name="Dahul" score="1900" serial="6" />
+        {rest.map((item) => (
+          <Item
+            key={item.rollNo}
+            name={item.name}
+            score={item.score}
+            serial={item.serial}
+          />
+        ))}
       </div>
     </div>
   );
