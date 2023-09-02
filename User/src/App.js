@@ -58,7 +58,7 @@ export default function App() {
     score: 0,
   });
   useEffect(() => {
-    let newSocket = io("http://127.0.0.1:3003/");
+    let newSocket = io("https://gdsc-quiz.onrender.com/");
     setSocket(newSocket);
 
     newSocket.on("connect", () => {
