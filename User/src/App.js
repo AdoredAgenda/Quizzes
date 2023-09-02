@@ -14,6 +14,8 @@ export default function App() {
       case "next":
         return state + 1;
       case "prev":
+        setMessage(action.message);
+        setScore(action.score);
         return state - 1;
       case "two":
         return state + 2;
@@ -21,7 +23,8 @@ export default function App() {
         return state;
     }
   }
-
+  const [score, setScore] = useState(0);
+  const [message, setMessage] = useState("");
   const [socket, setSocket] = useState(null);
   const [page, dispatch] = useReducer(changePage, 1);
   const [loggedIn, setLoggedIn] = useState(false);
@@ -108,6 +111,8 @@ export default function App() {
       jsx: (
         <Waiting
           key="waiting"
+          message={message}
+          score={score}
           changePage={(type) => {
             dispatch({ type: type });
           }}

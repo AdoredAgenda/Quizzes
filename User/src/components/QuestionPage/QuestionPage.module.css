@@ -145,3 +145,7 @@
   color: white;
   margin-top: 1.2rem;
 }
+.button:disabled {
+  background: #9f9f9f;
+  color: white;
+}
