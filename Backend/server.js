@@ -42,9 +42,9 @@ mongoose
   });
 
 const server = http.createServer(app);
-server.listen(port, ip, () => {
-  console.log(`Server running at http://${ip}:${port}/`);
-});
+//server.listen(port, () => {
+ // console.log(`Server running at http://${ip}:${port}/`);
+//});
 const io = require("socket.io")(server, { cors: { origin: "*" } });
 io.on("connect", (socket) => {
   socket.on("registerUser", (data, cb) => {
@@ -98,8 +98,8 @@ io.on("connect", (socket) => {
           time -= 1000;
         }
       }, 1000);
+      islastQuestionInProcess = true;
     }
-    islastQuestionInProcess = true;
   });
 
   socket.on("submitAnswer", (data, cb) => {
@@ -119,7 +119,11 @@ io.on("connect", (socket) => {
         null
       );
       socket.to("room1").emit("checkYourRank", { sendReq: true });
-      const leaderBoardData = sendLeaderboardData();
+      const leaderBoardData = await sendLeaderboardData();
+      console.log(
+        ";;;';';';';';';';';';';';';';';';';';';';';",
+        leaderBoardData
+      );
       socket.to("room1").emit("sendLeaderboardData", { leaderBoardData });
       callBack(response, cb);
       console.log("Leaderboard:", leaderboard);
