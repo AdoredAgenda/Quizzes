@@ -35,6 +35,7 @@ export default function App() {
   const [showBoard, setShowBoard] = useState(false);
   const [response, setResponse] = useState(null);
   const [newQuestion, setNewQuestion] = useState(false);
+  const [leaderboardData, setLeaderboardData] = useState([{}]);
 
   const [myData, setMyData] = useState({
     rank: 0,
@@ -110,6 +111,12 @@ export default function App() {
           time: data.time / 1000,
         };
       });
+      if (data.time / 1000 === 1) {
+        newSocket("sendLeaderboardData", null, (response) => {
+          console.log(response);
+          setLeaderboardData(response.data);
+        });
+      }
     });
     return () => newSocket.close();
   }, []);
@@ -177,6 +184,7 @@ export default function App() {
           rank={myData.rank}
           score={myData.totalScore}
           newQuestion={newQuestion}
+          leaderboardData={leaderboardData}
         />
       ),
     },
