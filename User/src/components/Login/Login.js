@@ -12,15 +12,12 @@ export default function Login({ changePage, socket }) {
     if (roll.length == 8) {
       const regex = /^23[A-Za-z]{3}(0[0-9][1-9]|1[0-4][0-9]|150)$/;
       if (regex.test(roll)) {
-        console.log("Valid Roll No.");
         setRollTest(true);
       } else {
         alert("Invalid Roll No.");
-        console.log("Invalid Roll No.");
         setRollTest(false);
       }
     } else {
-      console.log("Checking Roll No.");
       setRollTest(true);
     }
   }
