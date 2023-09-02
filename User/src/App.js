@@ -58,7 +58,7 @@ export default function App() {
     score: 0,
   });
   useEffect(() => {
-    let newSocket = io("http://192.168.141.180:3003/");
+    let newSocket = io("http://127.0.0.1:3003/");
     setSocket(newSocket);
 
     newSocket.on("connect", () => {
