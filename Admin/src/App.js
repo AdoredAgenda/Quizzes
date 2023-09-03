@@ -26,7 +26,7 @@ function App() {
   // }, []);
 
   useEffect(() => {
-    const newSocket = io("http://127.0.0.1:3003");
+    const newSocket = io("https://gdscquiz.onrender.com");
     setSocket(newSocket);
     newSocket.on("connect", () => {
       console.log("Connected to server");
