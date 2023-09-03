@@ -42,17 +42,18 @@ export default function Leaderboard({
   ];
   let nameInit;
   name ? (nameInit = name[0].toUpperCase()) : (nameInit = "");
+
   return (
     <div className={styles.app}>
       <Notifier correct={correct} show={show} />
       <div className={styles.top}>
         <div className={styles.nameInit}>
-          <span className={styles.name}>{nameInit}</span>
+          <span className={styles.name}>{nameInit ? nameInit : null}</span>
         </div>
       </div>
       <div className={styles.textBox}>
-        <span className={styles.position}>Rank - #{rank}</span>
-        <span className={styles.rank}>{score} Points</span>
+        <span className={styles.position}>Rank - #{rank ? rank : null}</span>
+        <span className={styles.rank}>{score ? score : null} Points</span>
       </div>
       <div className={styles.toppers}>
         {console.log(leaderboardData)}

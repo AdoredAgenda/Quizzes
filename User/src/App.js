@@ -87,8 +87,6 @@ export default function App() {
         const data = { token };
         newSocket.emit("myRank", data, (newRes) => {
           console.log(newRes);
-          dispatch({ type: "next" });
-          dispatch({ type: "next" });
           console.log(newRes.message);
           setMyData(newRes.message.user);
         });
@@ -118,8 +116,14 @@ export default function App() {
 
     newSocket.on("sendLeaderboardData", (response) => {
       // let { newLeadBoa } = response.data;
+      console.log(response);
       let newLeadBoa = response.leaderBoardData;
-      setLeaderboardData(newLeadBoa);
+      dispatch({ type: "next" });
+      dispatch({ type: "next" });
+
+      setLeaderboardData(() => {
+        return newLeadBoa;
+      });
     });
     return () => newSocket.close();
   }, []);
