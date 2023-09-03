@@ -51,6 +51,7 @@ export default function App() {
   const [data, setData] = useState({
     time: null,
     question: null,
+    qeustionNo: null,
   });
   let [userData, setUserData] = useState({
     name: "Arnav",
@@ -58,7 +59,7 @@ export default function App() {
     score: 0,
   });
   useEffect(() => {
-    let newSocket = io("https://gdsc-quiz.onrender.com/");
+    let newSocket = io("http://127.0.0.1:3003/");
     setSocket(newSocket);
 
     newSocket.on("connect", () => {
@@ -94,12 +95,14 @@ export default function App() {
       }
     });
     newSocket.on("receive", (data) => {
+      console.log(data);
       setNewQuestion((prev) => !prev);
       setData((prev) => {
         return {
           ...prev,
           time: data.time,
           question: data.question,
+          qeustionNo: data.questionNo,
         };
       });
       console.log(data);

@@ -10,7 +10,12 @@ const sendQuestion = async (socket, data, cb) => {
     } else if (data.islastQuestionInProcess) {
       throw new Error("lastQuestionInProcess");
     } else {
-      socket.to("room1").emit("receive", { question: data.question });
+      socket
+        .to("room1")
+        .emit("receive", {
+          question: data.question,
+          questionNo: data.questionNo,
+        });
 
       const response = new Response(
         "success",

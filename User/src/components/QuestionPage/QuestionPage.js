@@ -66,11 +66,11 @@ export default function QuestionPage({
       const data1 = {
         token,
         answer: state.selectedOption,
-        score: Math.floor((data.time / 30) * 500),
+        score: Math.floor((data.time / 10) * 500),
       };
       socket.emit("submitAnswer", data1, (response) => {
         responseHandler(response);
-        let val = Math.floor((data.time / 30) * 500);
+        let val = Math.floor((data.time / 10) * 500);
         changePage({
           type: "prev",
           message: "Let's wait for others to finish",
@@ -84,7 +84,7 @@ export default function QuestionPage({
   // Define the ProgressBar component here
   function ProgressBar({ time }) {
     const calculateHSL = (timeLeft) => {
-      const hue = Math.floor(120 * (timeLeft / 30));
+      const hue = Math.floor(120 * (timeLeft / 10));
       return `hsl(${hue}, 100%, 50%)`;
     };
 
@@ -94,13 +94,13 @@ export default function QuestionPage({
           className={styles.progressBar}
           style={{
             backgroundColor: calculateHSL(time),
-            width: `${(time / 30) * 100}%`,
+            width: `${(time / 10) * 100}%`,
           }}
         ></div>
       </div>
     );
   }
-
+  // console.log(data);
   return (
     data.question.statement && (
       <div className={styles.page}>
@@ -121,7 +121,7 @@ export default function QuestionPage({
         </div>
         <div className={styles.top}>
           <span className={styles.score}>{state.curScore}</span>
-          <span className={styles.questionNum}>Question {1}</span>
+          <span className={styles.questionNum}>Question {data.qeustionNo}</span>
           <span className={styles.timer}>{data.time} Sec</span>
         </div>
         <ProgressBar time={data.time} />
